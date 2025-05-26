@@ -1,0 +1,159 @@
+body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+    background-color: #1c66af;
+    color: white;
+    padding: 0.3rem; /* Réduit de 0.5rem */
+    text-align: center;
+    height: 80px; /* Hauteur fixe */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centre verticalement le contenu */
+}
+
+header img {
+    height: 250%; /* Taille réduite du logo */
+    width: auto; /* Maintient les proportions */
+    margin: 0 auto; /* Centre le logo horizontalement */
+}
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #1c66af;
+            padding: 0.5rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0.1rem;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #0d4b8a;
+            border-radius: 4px;
+        }
+        
+        /* Carrousel amélioré */
+        
+        .carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px; /* Ajoutez une largeur maximale */
+    margin: 1rem auto;
+    overflow: hidden;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease;
+    height: 400px; /* Hauteur fixe */
+}
+
+.carousel img {
+    width: 100%; /* Prend toute la largeur du conteneur */
+    height: 100%; /* Prend toute la hauteur du conteneur */
+    object-fit: cover;
+    flex-shrink: 0; /* Empêche le rétrécissement des images */
+}
+
+        
+        
+        
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            z-index: 10;
+             
+        }
+        #prevBtn {
+            left: 10px;
+        }
+        #nextBtn {
+            right: 10px;
+        }
+        .carousel-btn:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+        
+        .welcome {
+            text-align: center;
+            padding: 2rem;
+            background-color: #f8f9fa;
+        }
+        .event-section {
+            padding: 1rem;
+            margin: 1rem auto;
+            max-width: 800px;
+        }
+        .event-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .event-card img {
+            width: 400px;
+            max-height: 300px;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+        footer {
+            background-color: #1c66af;
+            color: white;
+            padding: 2rem 4rem;
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        footer .contact-info {
+            max-width: 300px;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        footer .map {
+            height: 200px;
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            margin: 0 auto;  
+        }
+
+        .map {
+            height: 200px;
+            margin: 1rem auto;
+            max-width: 800px;
+        }
+        .en-savoir-plus {
+            display: inline-block;
+            background-color: #1c66af;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+        }
+        .en-savoir-plus:hover {
+            background-color: #0d4b8a;
+        }
