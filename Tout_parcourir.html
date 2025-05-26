@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tout Parcourir - Sportify</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+    background-color: #1c66af;
+    color: white;
+    padding: 0.3rem;
+    text-align: center;
+    height: 80px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+}
+
+header img {
+    height: 250%;
+    width: auto; 
+    margin: 0 auto;
+}
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #1c66af;
+            padding: 0.5rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 1rem;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #0d4b8a;
+            border-radius: 4px;
+        }
+        
+       
+        .categories-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .category-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .category-card h2 {
+            color: #1c66af;
+            margin-top: 0;
+            padding-bottom: 0.5rem;
+        }
+        
+        .category-description {
+            flex-grow: 1;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn-category {
+            display: block;
+            background-color: #1c66af;
+            color: white;
+            text-align: center;
+            padding: 0.8rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-category:hover {
+            background-color: #0d4b8a;
+        }
+        
+        footer {
+            background-color: #1c66af;
+            color: white;
+            padding: 2rem 4rem;
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        footer .contact-info {
+            max-width: 300px;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        footer .map {
+            height: 200px;
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            margin: 0 auto;  
+        }
+
+        
+        .map {
+            height: 200px;
+            margin: 1rem auto;
+            max-width: 800px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="Images/Logo-sportify.png" alt="Sportify Logo" height="150">
+    </header>
+    
+    <nav>
+        <a href="Accueil.html">Accueil</a>
+        <a href="Tout_parcourir.html" class="active">Tout parcourir</a>
+        <a href="recherche.html">Recherche</a>
+        <a href="rendez-vous.html">Rendez-vous</a>
+        <a href="votre-compte.html">Votre compte</a>
+    </nav>
+    
+    <main class="categories-container">
+        <article class="category-card">
+            <h2>Activités Sportives</h2>
+            <div class="category-description">
+                <p>Découvrez nos activités sportives variées pour tous les niveaux. Que vous soyez débutant ou confirmé, nos coachs vous accompagnent dans votre pratique sportive.</p>
+                <p><strong>Exemples :</strong> Yoga, Natation, Zumba, Pilates, Danse</p>
+            </div>
+            <a href="activites-sportives.html" class="btn-category">Voir les activités</a>
+        </article>
+        
+        <article class="category-card">
+            <h2>Sports de Compétition</h2>
+            <div class="category-description">
+                <p>Pratiquez votre sport favori en compétition avec nos équipes et tournois organisés. Encadrement professionnel pour progresser et performer.</p>
+                <p><strong>Exemples :</strong> Football, Basketball, Tennis, Rugby, Volley</p>
+            </div>
+            <a href="sports-competition.html" class="btn-category">Découvrir les sports</a>
+        </article>
+        
+        <article class="category-card">
+            <h2>Salle de Sport Omnes</h2>
+            <div class="category-description">
+                <p>Notre salle de sport haut de gamme propose des équipements modernes et un accompagnement personnalisé pour atteindre vos objectifs.</p>
+                <p><strong>Services :</strong> Musculation, Cardio, CrossFit, Coaching, Cours collectifs</p>
+            </div>
+            <a href="salle-sport.html" class="btn-category">Visiter la salle</a>
+        </article>
+    </main>
+    
+    <footer>
+        <div class="contact-info">
+            <h3>Contactez-nous</h3>
+            <p>33 Rue des sportifs de l'ECE<br>
+            team.sportify@onnes.com<br>
+            06 33 16 22 31</p>
+        </div>
+
+        <div class="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d46125.16715836869!2d3.6489429259873885!3d43.735004800892554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b3fe268b01f953%3A0x4078821166ab9b0!2s34380%20Viols-le-Fort!5e0!3m2!1sfr!2sfr!4v1748268041768!5m2!1sfr!2sfr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </footer>
+</body>
+</html>
