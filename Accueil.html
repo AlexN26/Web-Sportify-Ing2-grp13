@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sportify - Consultation sportive en ligne</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+    background-color: #1c66af;
+    color: white;
+    padding: 0.3rem; /* Réduit de 0.5rem */
+    text-align: center;
+    height: 80px; /* Hauteur fixe */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centre verticalement le contenu */
+}
+
+header img {
+    height: 250%; /* Taille réduite du logo */
+    width: auto; /* Maintient les proportions */
+    margin: 0 auto; /* Centre le logo horizontalement */
+}
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #1c66af;
+            padding: 0.5rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #0d4b8a;
+            border-radius: 4px;
+        }
+        
+        /* Carrousel amélioré */
+        
+        .carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px; /* Ajoutez une largeur maximale */
+    margin: 1rem auto;
+    overflow: hidden;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease;
+    height: 400px; /* Hauteur fixe */
+}
+
+.carousel img {
+    width: 100%; /* Prend toute la largeur du conteneur */
+    height: 100%; /* Prend toute la hauteur du conteneur */
+    object-fit: cover;
+    flex-shrink: 0; /* Empêche le rétrécissement des images */
+}
+
+        
+        
+        
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            z-index: 10;
+             
+        }
+        #prevBtn {
+            left: 10px;
+        }
+        #nextBtn {
+            right: 10px;
+        }
+        .carousel-btn:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+        
+        .welcome {
+            text-align: center;
+            padding: 2rem;
+            background-color: #f8f9fa;
+        }
+        .event-section {
+            padding: 1rem;
+            margin: 1rem auto;
+            max-width: 800px;
+        }
+        .event-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .event-card img {
+            width: 400px;
+            max-height: 300px;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+        footer {
+            background-color: #1c66af;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .map {
+            height: 200px;
+            margin: 1rem auto;
+            max-width: 800px;
+        }
+        .en-savoir-plus {
+            display: inline-block;
+            background-color: #1c66af;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+        }
+        .en-savoir-plus:hover {
+            background-color: #0d4b8a;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="Images/Logo-sportify.png" alt="Sportify Logo" height="150">
+    </header>
+    
+    <nav>
+        <a href="#">Accueil</a>
+        <a href="#">Tout parcourir</a>
+        <a href="#">Recherche</a>
+        <a href="#">Rendez-vous</a>
+        <a href="#">Votre compte</a>
+    </nav>
+    
+    <div class="carousel-container">
+        <div class="carousel">
+            <img src="Images/Carroussel-salle-sport.jpeg"  alt="Salle de sport">
+            <img src="Images/Caroussel-terrain-foot.jpeg" alt="Terrain de football">
+            <img src="Images/Caroussel-fitness.jpg" alt="Fitness">
+        </div>
+        <button class="carousel-btn" id="prevBtn">&#10094;</button>
+        <button class="carousel-btn" id="nextBtn">&#10095;</button>
+    </div>
+    
+    <section class="welcome">
+        <h2>Votre plateforme de consultation sportive en ligne</h2>
+        <p>Sportify vous connecte avec des professionnels du sport pour améliorer vos performances, prévenir les blessures et atteindre vos objectifs sportifs.</p>
+    </section>
+    
+    <section class="event-section">
+        <h2>Événement de la semaine</h2>
+        
+        <div class="event-card">
+            <h3>Le PSG gagne la ligue des champions</h3>
+            <img src="Images/Semaine-psg.jpeg" alt="PSG victoire">
+            <p>Revivez les moments forts de cette victoire historique.</p>
+            <a href="#" class="en-savoir-plus">En savoir plus</a>
+        </div>
+        
+        <div class="event-card">
+            <h3>Victoire du coureur Vincent au 100km</h3>
+            <img src="Images/Semaine-Vincent.jpg" alt="Vincent victoire">
+            <p>Découvrez le parcours exceptionnel de cet athlète.</p>
+            <a href="#" class="en-savoir-plus">En savoir plus</a>
+        </div>
+    </section>
+    
+    <footer>
+        <h3>Contactez-nous</h3>
+        <p>33 Rue des sportifs de l'ECE<br>
+        team.sportify@onnes.com<br>
+        06 33 16 22 31</p>
+        
+        <div class="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d46125.16715836869!2d3.6489429259873885!3d43.735004800892554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b3fe268b01f953%3A0x4078821166ab9b0!2s34380%20Viols-le-Fort!5e0!3m2!1sfr!2sfr!4v1748268041768!5m2!1sfr!2sfr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        
+        <p>&copy; 2025 Sportify - Tous droits réservés</p>
+    </footer>
+
+    <script>
+        // Script pour le carrousel
+       document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.querySelector('.carousel');
+    const carouselContainer = document.querySelector('.carousel-container');
+    const images = document.querySelectorAll('.carousel img');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    let counter = 0;
+    const size = carouselContainer.clientWidth; // Utilise la largeur du conteneur
+    
+    // Position initiale
+    carousel.style.transform = 'translateX(' + (-size * counter) + 'px)';
+    
+    // Bouton suivant
+    nextBtn.addEventListener('click', function() {
+        if (counter >= images.length - 1) return;
+        carousel.style.transition = "transform 0.5s ease";
+        counter++;
+        carousel.style.transform = 'translateX(' + (-size * counter) + 'px)';
+    });
+    
+    // Bouton précédent
+    prevBtn.addEventListener('click', function() {
+        if (counter <= 0) return;
+        carousel.style.transition = "transform 0.5s ease";
+        counter--;
+        carousel.style.transform = 'translateX(' + (-size * counter) + 'px)';
+    });
+    
+    // Défilement automatique (optionnel)
+    setInterval(function() {
+        if (counter >= images.length - 1) counter = -1;
+        carousel.style.transition = "transform 0.5s ease";
+        counter++;
+        carousel.style.transform = 'translateX(' + (-size * counter) + 'px)';
+    }, 5000);
+});
+    </script>
+</body>
+</html>
