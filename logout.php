@@ -1,6 +1,6 @@
 <?php
 session_start();
 session_destroy();
-header("Location: Votre-compte.html");
+header("Location: Votre_compte.php");
 exit();
 ?>

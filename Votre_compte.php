@@ -1,3 +1,26 @@
+<?php
+session_start();
+if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
+    switch ($_SESSION['role']) {
+        case 'client':
+            header("Location: client.php");
+            break;
+        case 'coach':
+            header("Location: coach.php");
+            break;
+        case 'admin':
+            header("Location: admin.php");
+            break;
+        default:
+            // Si le rôle est inconnu, déconnexion par sécurité
+            session_destroy();
+            header("Location: login.php?error=session_error");
+    }
+    exit();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -143,11 +166,11 @@
     </header>
     
     <nav>
-        <a href="Accueil.html">Accueil</a>
-        <a href="Tout_parcourir.html">Tout parcourir</a>
+        <a href="Accueil.php">Accueil</a>
+        <a href="Tout_parcourir.php">Tout parcourir</a>
         <a href="recherche.html">Recherche</a>
         <a href="rendez-vous.html">Rendez-vous</a>
-        <a href="Votre_compte.html" class="active">Votre compte</a>
+        <a href="Votre_compte.php" class="active">Votre compte</a>
     </nav>
     
     <main>

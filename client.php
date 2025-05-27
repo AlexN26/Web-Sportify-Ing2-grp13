@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'client') {
-    header("Location: Votre_compte.html");
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'client') {
+    header("Location: Votre_compte.php");
     exit();
 }
 ?>
@@ -16,11 +16,11 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'client') {
     </header>
     
     <nav>
-        <a href="Accueil.html">Accueil</a>
-        <a href="Tout_parcourir.html">Tout parcourir</a>
+        <a href="Accueil.php">Accueil</a>
+        <a href="Tout_parcourir.php">Tout parcourir</a>
         <a href="recherche.html">Recherche</a>
         <a href="rendez-vous.html">Rendez-vous</a>
-        <a href="Votre_compte.html" class="active">Votre compte</a>
+        <a href="Votre_compte.php" >Votre compte</a>
     </nav>
     <h1>Bienvenue <?php echo $_SESSION['username']; ?> !</h1>
     <p>Vous êtes connecté en tant que CLIENT</p>

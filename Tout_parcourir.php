@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
+    header("Location: Votre_compte.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -12,11 +21,11 @@
     </header>
     
     <nav>
-        <a href="Accueil.html">Accueil</a>
-        <a href="Tout_parcourir.html" class="active">Tout parcourir</a>
+        <a href="Accueil.php">Accueil</a>
+        <a href="Tout_parcourir.php" class="active">Tout parcourir</a>
         <a href="recherche.html">Recherche</a>
         <a href="rendez-vous.html">Rendez-vous</a>
-        <a href="Votre_compte.html">Votre compte</a>
+        <a href="Votre_compte.php">Votre compte</a>
     </nav>
     
     <main class="categories-container">
