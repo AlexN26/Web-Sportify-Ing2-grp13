@@ -1,9 +1,39 @@
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
-    // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
     header("Location: Votre_compte.php");
     exit();
+}
+
+// Connexion BDD
+$servername = "localhost";
+$username_db = "root";
+$password_db = "";
+$dbname = "sportify_db";
+$conn = new mysqli($servername, $username_db, $password_db, $dbname);
+if ($conn->connect_error) {
+    die("Erreur de connexion: " . $conn->connect_error);
+}
+
+function getCoachInfo($conn, $discipline) {
+    $stmt = $conn->prepare("SELECT * FROM coachs WHERE domaine_expertise = ? LIMIT 1");
+    $stmt->bind_param("s", $discipline);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
+function renderCoach($coach) {
+    if (!$coach) return "<p>Aucun coach trouvé pour cette discipline.</p>";
+    return "
+        <img src='" . htmlspecialchars($coach['photo']) . "' alt='Photo de " . htmlspecialchars($coach['prenom']) . "' style='width:100px;border-radius:50%;'><br>
+        <strong>Nom :</strong> " . htmlspecialchars($coach['prenom']) . " " . htmlspecialchars($coach['nom']) . "<br>
+        <strong>Âge :</strong> " . htmlspecialchars($coach['age']) . " ans<br>
+        <strong>Diplômes :</strong> " . htmlspecialchars($coach['diplomes']) . "<br>
+        <strong>Téléphone :</strong> " . htmlspecialchars($coach['telephone']) . "<br>
+        <strong>Email :</strong> " . htmlspecialchars($coach['email']) . "<br>
+        <strong>Expérience :</strong> " . htmlspecialchars($coach['experience']) . "<br>
+        <strong>Description :</strong><br><p>" . nl2br(htmlspecialchars($coach['description'])) . "</p>";
 }
 ?>
 <!DOCTYPE html>
@@ -19,13 +49,11 @@ if (!isset($_SESSION['username'])) {
       padding: 0;
       background: #f5f5f5;
     }
-
     h1 {
       text-align: center;
       padding: 2rem;
       color: #1c66af;
     }
-
     .activities-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -34,7 +62,6 @@ if (!isset($_SESSION['username'])) {
       max-width: 1200px;
       margin: 0 auto;
     }
-
     .activity-card {
       background-color: white;
       border-radius: 10px;
@@ -44,17 +71,13 @@ if (!isset($_SESSION['username'])) {
       cursor: pointer;
       transition: transform 0.2s ease;
     }
-
     .activity-card:hover {
       transform: translateY(-5px);
     }
-
     .activity-card h2 {
       color: #1c66af;
       margin-bottom: 0.5rem;
     }
-
-    /* Modal Styles */
     .modal {
       display: none;
       position: fixed;
@@ -66,7 +89,6 @@ if (!isset($_SESSION['username'])) {
       overflow: auto;
       background-color: rgba(0,0,0,0.5);
     }
-
     .modal-content {
       background-color: white;
       margin: 10% auto;
@@ -76,7 +98,6 @@ if (!isset($_SESSION['username'])) {
       max-width: 600px;
       box-shadow: 0 2px 15px rgba(0,0,0,0.3);
     }
-
     .close {
       color: #aaa;
       float: right;
@@ -84,7 +105,6 @@ if (!isset($_SESSION['username'])) {
       font-weight: bold;
       cursor: pointer;
     }
-
     .close:hover {
       color: #000;
     }
@@ -92,7 +112,6 @@ if (!isset($_SESSION['username'])) {
 </head>
 <body>
   <h1>Nos Activités Sportives</h1>
-
   <div class="activities-grid">
     <div class="activity-card" onclick="openModal('musculation')">
       <h2>Musculation</h2>
@@ -121,7 +140,7 @@ if (!isset($_SESSION['username'])) {
     <div class="modal-content">
       <span class="close" onclick="closeModal('musculation')">&times;</span>
       <h2>Musculation</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet risus vitae elit bibendum fermentum. (Coachs à venir)</p>
+      <?= renderCoach(getCoachInfo($conn, 'Musculation')) ?>
     </div>
   </div>
 
@@ -129,7 +148,7 @@ if (!isset($_SESSION['username'])) {
     <div class="modal-content">
       <span class="close" onclick="closeModal('fitness')">&times;</span>
       <h2>Fitness</h2>
-      <p>Blablabla musclé de remplacement en attendant du contenu qui va soulever de la fonte virtuelle. (Coachs à venir)</p>
+      <?= renderCoach(getCoachInfo($conn, 'Fitness')) ?>
     </div>
   </div>
 
@@ -137,7 +156,7 @@ if (!isset($_SESSION['username'])) {
     <div class="modal-content">
       <span class="close" onclick="closeModal('biking')">&times;</span>
       <h2>Biking</h2>
-      <p>On pédale dans le vide ici pour l’instant, mais bientôt les coachs feront transpirer le HTML. (Coachs à venir)</p>
+      <?= renderCoach(getCoachInfo($conn, 'Biking')) ?>
     </div>
   </div>
 
@@ -145,7 +164,7 @@ if (!isset($_SESSION['username'])) {
     <div class="modal-content">
       <span class="close" onclick="closeModal('cardio')">&times;</span>
       <h2>Cardio-Training</h2>
-      <p>Cardio intensif de mots sans oxygène pour meubler cette pop-up. (Coachs à venir)</p>
+      <?= renderCoach(getCoachInfo($conn, 'Cardio-Training')) ?>
     </div>
   </div>
 
@@ -153,7 +172,7 @@ if (!isset($_SESSION['username'])) {
     <div class="modal-content">
       <span class="close" onclick="closeModal('cours-collectifs')">&times;</span>
       <h2>Cours Collectifs</h2>
-      <p>Texte inutile mais motivé, comme un coach qui gueule "encore 10 pompes" juste pour le fun. (Coachs à venir)</p>
+      <?= renderCoach(getCoachInfo($conn, 'Cours Collectifs')) ?>
     </div>
   </div>
 
@@ -161,11 +180,9 @@ if (!isset($_SESSION['username'])) {
     function openModal(id) {
       document.getElementById(id).style.display = 'block';
     }
-
     function closeModal(id) {
       document.getElementById(id).style.display = 'none';
     }
-
     window.onclick = function(event) {
       const modals = document.querySelectorAll('.modal');
       modals.forEach(modal => {

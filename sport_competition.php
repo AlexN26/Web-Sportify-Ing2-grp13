@@ -5,7 +5,38 @@ if (!isset($_SESSION['username'])) {
     header("Location: Votre_compte.php");
     exit();
 }
+
+$servername = "localhost";
+$username_db = "root";
+$password_db = "";
+$dbname = "sportify_db";
+$conn = new mysqli($servername, $username_db, $password_db, $dbname);
+if ($conn->connect_error) {
+    die("Erreur de connexion: " . $conn->connect_error);
+}
+
+function getCoachInfo($conn, $discipline) {
+    $stmt = $conn->prepare("SELECT * FROM coachs WHERE domaine_expertise = ? LIMIT 1");
+    $stmt->bind_param("s", $discipline);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
+function renderCoach($coach) {
+    if (!$coach) return "<p>Aucun coach trouvé pour cette discipline.</p>";
+    return "
+        <img src='" . htmlspecialchars($coach['photo']) . "' alt='Photo de " . htmlspecialchars($coach['prenom']) . "' style='width:100px;border-radius:50%;'><br>
+        <strong>Nom :</strong> " . htmlspecialchars($coach['prenom']) . " " . htmlspecialchars($coach['nom']) . "<br>
+        <strong>Âge :</strong> " . htmlspecialchars($coach['age']) . " ans<br>
+        <strong>Diplômes :</strong> " . htmlspecialchars($coach['diplomes']) . "<br>
+        <strong>Téléphone :</strong> " . htmlspecialchars($coach['telephone']) . "<br>
+        <strong>Email :</strong> " . htmlspecialchars($coach['email']) . "<br>
+        <strong>Expérience :</strong> " . htmlspecialchars($coach['experience']) . "<br>
+        <strong>Description :</strong><br><p>" . nl2br(htmlspecialchars($coach['description'])) . "</p>";
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -153,7 +184,7 @@ if (!isset($_SESSION['username'])) {
     <div class="modal-content">
       <span class="close" onclick="closeModal('basketball')">&times;</span>
       <h2>Basketball</h2>
-      <p>L'équipe des Dunk Masters affronte régulièrement les meilleures universités du pays. Un collectif qui monte au dunk comme on monte au front — sauvagement et avec panache.</p>
+      <?= renderCoach(getCoachInfo($conn, 'basketball')) ?>
     </div>
   </div>
 
@@ -161,7 +192,7 @@ if (!isset($_SESSION['username'])) {
     <div class="modal-content">
       <span class="close" onclick="closeModal('football')">&times;</span>
       <h2>Football</h2>
-      <p>Les Tireurs Précis n'ont pas peur de tirer... des lucarnes. Ils jouent en Ligue Régionale 1 et matent leur adversaire comme Zidane matait la Juventus en 2002.</p>
+      <?= renderCoach(getCoachInfo($conn, 'football')) ?>
     </div>
   </div>
 
@@ -169,7 +200,7 @@ if (!isset($_SESSION['username'])) {
     <div class="modal-content">
       <span class="close" onclick="closeModal('rugby')">&times;</span>
       <h2>Rugby</h2>
-      <p>Les Plaqueurs Sauvages portent bien leur nom. Leurs adversaires finissent au sol plus souvent qu’un étudiant en partiels sans sommeil.</p>
+      <?= renderCoach(getCoachInfo($conn, 'rugby')) ?>
     </div>
   </div>
 
@@ -177,7 +208,7 @@ if (!isset($_SESSION['username'])) {
     <div class="modal-content">
       <span class="close" onclick="closeModal('tennis')">&times;</span>
       <h2>Tennis</h2>
-      <p>La team Ace Breakers distribue les services gagnants comme des pains un lundi matin. Jeu, set et match en 2 frappes chrono.</p>
+      <?= renderCoach(getCoachInfo($conn, 'tennis')) ?>
     </div>
   </div>
 
@@ -185,7 +216,7 @@ if (!isset($_SESSION['username'])) {
     <div class="modal-content">
       <span class="close" onclick="closeModal('natation')">&times;</span>
       <h2>Natation</h2>
-      <p>Les Requins Bleus nagent plus vite que leur ombre. En bassin, ils dominent comme Phelps en 2008. Sauvagement.</p>
+      <?= renderCoach(getCoachInfo($conn, 'natation')) ?>
     </div>
   </div>
 
@@ -193,7 +224,7 @@ if (!isset($_SESSION['username'])) {
     <div class="modal-content">
       <span class="close" onclick="closeModal('plongeon')">&times;</span>
       <h2>Plongeon</h2>
-      <p>Voltige, élégance, et des plongeons qui claquent comme une copie de partiel parfaite — une vraie leçon de style.</p>
+      <?= renderCoach(getCoachInfo($conn, 'plongeon')) ?>
     </div>
   </div>
 
@@ -201,7 +232,7 @@ if (!isset($_SESSION['username'])) {
     <div class="modal-content">
       <span class="close" onclick="closeModal('triathlon')">&times;</span>
       <h2>Triathlon</h2>
-      <p>Les Machines de Fer enchaînent nage, vélo et course avec la précision d’un robot programmé pour mater ses concurrents… littéralement.</p>
+      <?= renderCoach(getCoachInfo($conn, 'Triathlon')) ?>
     </div>
   </div>
 
