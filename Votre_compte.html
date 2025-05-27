@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Sportify</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        
+        
+        .login-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .login-btn {
+            background-color: #1c66af;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="Images/Logo-sportify.png" alt="Sportify Logo" height="150">
+    </header>
+    
+    <nav>
+        <a href="Accueil.html">Accueil</a>
+        <a href="Tout_parcourir.html">Tout parcourir</a>
+        <a href="recherche.html">Recherche</a>
+        <a href="rendez-vous.html">Rendez-vous</a>
+        <a href="Votre-compte.html" class="active">Votre compte</a>
+    </nav>
+    
+    <main>
+        <!-- Formulaire de connexion -->
+        <div id="login-form" class="login-container">
+            <h2>Connexion</h2>
+            <form action="authenticate.php" method="POST">
+                <div class="form-group">
+                    <label for="username">Nom d'utilisateur</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-btn">Se connecter</button>
+            </form>
+        </div>
+        
+        <!-- Interface Client (masquée par défaut) -->
+        <div id="client-interface" class="hidden">
+            <h2>Espace Client</h2>
+            <!-- Contenu spécifique au client -->
+        </div>
+        
+        <!-- Interface Coach (masquée par défaut) -->
+        <div id="coach-interface" class="hidden">
+            <h2>Espace Coach</h2>
+            <!-- Contenu spécifique au coach -->
+        </div>
+        
+        <!-- Interface Admin (masquée par défaut) -->
+        <div id="admin-interface" class="hidden">
+            <h2>Espace Administrateur</h2>
+            <!-- Contenu spécifique à l'admin -->
+        </div>
+    </main>
+    
+    <footer>
+        <div class="contact-info">
+            <h3>Contactez-nous</h3>
+            <p>33 Rue des sportifs de l'ECE<br>
+            team.sportify@onnes.com<br>
+            06 33 16 22 31</p>
+        </div>
+
+        <div class="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d46125.16715836869!2d3.6489429259873885!3d43.735004800892554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b3fe268b01f953%3A0x4078821166ab9b0!2s34380%20Viols-le-Fort!5e0!3m2!1sfr!2sfr!4v1748268041768!5m2!1sfr!2sfr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </footer>
+</body>
+</html>
