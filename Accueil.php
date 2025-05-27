@@ -50,14 +50,14 @@ if (!isset($_SESSION['username'])) {
             <h3>Le PSG gagne la ligue des champions</h3>
             <img src="Images/Semaine-psg.jpeg" alt="PSG victoire">
             <p>Revivez les moments forts de cette victoire historique.</p>
-            <a href="#" class="en-savoir-plus">En savoir plus</a>
+            <a href="article_psg.php" class="en-savoir-plus">En savoir plus</a>
         </div>
         
         <div class="event-card">
             <h3>Victoire du coureur Vincent au 100km</h3>
             <img src="Images/Semaine-Vincent.jpg" alt="Vincent victoire">
             <p>Découvrez le parcours exceptionnel de cet athlète.</p>
-            <a href="#" class="en-savoir-plus">En savoir plus</a>
+            <a href="article_vincent.php" class="en-savoir-plus">En savoir plus</a>
         </div>
     </section>
     
