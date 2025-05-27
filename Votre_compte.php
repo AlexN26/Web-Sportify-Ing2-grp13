@@ -207,7 +207,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
             
             <div class="register-link">
                 <p>Pas encore de compte ? <a href="inscription.html">Créer un compte</a></p>
-                
             </div>
         </div>
         
