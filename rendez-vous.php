@@ -1,29 +1,57 @@
 <?php
 session_start();
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit();
-}
 
 $mysqli = new mysqli("localhost", "root", "", "sportify_db");
 if ($mysqli->connect_error) {
     die("Erreur BDD : " . $mysqli->connect_error);
 }
 
-$username = $_SESSION['username'];
+$username = $_SESSION['username'] ?? '';
+$role = $_SESSION['role'] ?? '';
+
 $rdvs = $mysqli->prepare("SELECT r.*, c.nom, c.prenom FROM rendez_vous r JOIN coachs c ON r.coach_id = c.id WHERE r.client_username = ?");
 $rdvs->bind_param("s", $username);
 $rdvs->execute();
 $result = $rdvs->get_result();
 
-// Annulation
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['annuler_id'])) {
+// Annulation (uniquement pour clients)
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['annuler_id']) && $role === 'client') {
     $id = intval($_POST['annuler_id']);
     $mysqli->query("DELETE FROM rendez_vous WHERE id = $id");
     header("Location: rendez-vous.php");
     exit();
 }
+
+// Prise de rendez-vous (clients uniquement)
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['coach_id'], $_POST['dispo_id']) && $role === 'client') {
+    $coach_id = intval($_POST['coach_id']);
+    $dispo_id = intval($_POST['dispo_id']);
+
+    $verif = $mysqli->prepare("
+        SELECT d.jour, d.heure_debut, d.heure_fin
+        FROM disponibilite d
+        WHERE d.id = ? AND d.disponible = 1
+        AND NOT EXISTS (
+            SELECT 1 FROM rendez_vous r
+            WHERE r.coach_id = d.coach_id AND r.date_rdv = CURDATE() AND r.heure_rdv = d.heure_debut
+        )
+    ");
+    $verif->bind_param("i", $dispo_id);
+    $verif->execute();
+    $verif_result = $verif->get_result();
+
+    if ($verif_result->num_rows > 0) {
+        $row = $verif_result->fetch_assoc();
+        $stmt = $mysqli->prepare("INSERT INTO rendez_vous (client_username, coach_id, date_rdv, heure_rdv, lieu) VALUES (?, ?, CURDATE(), ?, 'Salle Omnes')");
+        $stmt->bind_param("sis", $username, $coach_id, $row['heure_debut']);
+        $stmt->execute();
+        $stmt->close();
+        header("Location: rendez-vous.php");
+        exit();
+    }
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -46,27 +74,57 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['annuler_id'])) {
     </nav>
     <h1>Mes rendez-vous confirmés</h1>
 
-    <?php if ($result->num_rows > 0): ?>
-        <table border="1">
-            <tr><th>Coach</th><th>Date</th><th>Heure</th><th>Lieu</th><th>Action</th></tr>
-            <?php while ($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td><?= htmlspecialchars($row['prenom'] . ' ' . $row['nom']) ?></td>
-                    <td><?= htmlspecialchars($row['date']) ?></td>
-                    <td><?= htmlspecialchars($row['heure']) ?></td>
-                    <td><?= htmlspecialchars($row['lieu']) ?></td>
-                    <td>
-                        <form method="POST">
-                            <input type="hidden" name="annuler_id" value="<?= $row['id'] ?>">
-                            <button type="submit">Annuler</button>
-                        </form>
-                    </td>
-                </tr>
-            <?php endwhile; ?>
-        </table>
-    <?php else: ?>
-        <p>Aucun rendez-vous à venir.</p>
+ <h2>Prendre un nouveau rendez-vous</h2>
+
+<?php if ($role !== 'client'): ?>
+    <p style="color:red;">Seuls les clients peuvent prendre un rendez-vous. Veuillez vous connecter avec un compte client.</p>
+<?php else: ?>
+    <form method="POST">
+        <label>Choisir un coach :
+            <select name="coach_id" required onchange="this.form.submit()">
+                <option value="">-- Sélectionnez --</option>
+                <?php
+                $coachs = $mysqli->query("SELECT id, nom, prenom FROM coachs");
+                while ($c = $coachs->fetch_assoc()) {
+                    $selected = (isset($_POST['coach_id']) && $_POST['coach_id'] == $c['id']) ? "selected" : "";
+                    echo "<option value='{$c['id']}' $selected>{$c['prenom']} {$c['nom']}</option>";
+                }
+                ?>
+            </select>
+        </label>
+    </form>
+
+    <?php if (isset($_POST['coach_id'])): ?>
+        <form method="POST">
+            <input type="hidden" name="coach_id" value="<?= intval($_POST['coach_id']) ?>">
+            <label>Choisir un créneau :
+                <select name="dispo_id" required>
+                    <?php
+                    $coach_id = intval($_POST['coach_id']);
+                    $dispos = $mysqli->query("
+                        SELECT d.id, d.jour, d.heure_debut, d.heure_fin 
+                        FROM disponibilite d 
+                        WHERE d.coach_id = $coach_id 
+                        AND d.disponible = 1 
+                        AND NOT EXISTS (
+                            SELECT 1 FROM rendez_vous r 
+                            WHERE r.coach_id = d.coach_id 
+                            AND r.date_rdv = CURDATE() 
+                            AND r.heure_rdv = d.heure_debut
+                        )
+                    ");
+                    while ($d = $dispos->fetch_assoc()) {
+                        echo "<option value='{$d['id']}'>".$d['jour']." de ".$d['heure_debut']." à ".$d['heure_fin']."</option>";
+                    }
+                    ?>
+                </select>
+            </label>
+            <button type="submit">Valider le rendez-vous</button>
+        </form>
     <?php endif; ?>
+<?php endif; ?>
+
+
     <footer>
         <div class="contact-info">
             <h3>Contactez-nous</h3>

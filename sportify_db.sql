@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 27 mai 2025 à 14:04
+-- Généré le : mar. 27 mai 2025 à 15:24
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -60,6 +60,93 @@ INSERT INTO `coachs` (`id`, `nom`, `prenom`, `age`, `domaine_expertise`, `diplom
 (10, 'Neyrinck', 'Alexandre', 29, 'Tennis', 'Diplôme d\'État de Tennis, Analyse Vidéo FFT', '+33 7 62 55 13 20', 'alex.tennis@sportify.fr', 'Coach régional FFT, spécialisé dans le service et les coups liftés.', 'Alexandre te fait mater des balles à effet comme des missiles téléguidés. Il voit chaque mouvement au ralenti. Il dit souvent : “Si tu frappes sans penser, tu rates comme un pigeon bourré.”', 'Images/alex_neyrinck.jpg'),
 (11, 'Moretti', 'Giulia', 34, 'Natation', 'BEESAN, Maître-nageur', '+33 6 44 33 22 11', 'giulia.natation@sportify.fr', 'Championne junior d’Italie, coach élite depuis 8 ans.', 'Giulia nage plus vite que les ragots. Elle te fait mater la technique à la Michael Phelps et te corrige la moindre ondulation de flemme.', 'Images/giulia.jpeg'),
 (12, 'Contentin', 'Brice', 38, 'Plongeon', 'Diplôme FINA, Formation acrobatie aquatique', '+33 6 71 45 89 01', 'brice.plongeon@sportify.fr', 'Plongeur pro reconverti en entraîneur artistique.', 'Brice vole mieux qu’un pigeon voyageur. Il te fait mater la peur du vide et t’apprend à tomber avec classe, grâce, et une rotation arrière bien propre.', 'Images/brice.png');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `disponibilite`
+--
+
+DROP TABLE IF EXISTS `disponibilite`;
+CREATE TABLE IF NOT EXISTS `disponibilite` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `coach_id` int NOT NULL,
+  `jour` enum('lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche') NOT NULL,
+  `heure_debut` time NOT NULL,
+  `heure_fin` time NOT NULL,
+  `disponible` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `coach_id` (`coach_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `disponibilite`
+--
+
+INSERT INTO `disponibilite` (`id`, `coach_id`, `jour`, `heure_debut`, `heure_fin`, `disponible`) VALUES
+(1, 1, 'lundi', '09:00:00', '11:00:00', 1),
+(2, 1, 'jeudi', '14:00:00', '16:00:00', 1),
+(3, 1, 'samedi', '10:00:00', '12:00:00', 1),
+(4, 2, 'mardi', '08:00:00', '12:00:00', 1),
+(5, 2, 'jeudi', '08:00:00', '10:00:00', 1),
+(6, 2, 'vendredi', '14:00:00', '16:00:00', 1),
+(7, 3, 'lundi', '13:00:00', '15:00:00', 1),
+(8, 3, 'mercredi', '09:00:00', '11:00:00', 1),
+(9, 3, 'vendredi', '17:00:00', '19:00:00', 1),
+(10, 4, 'mardi', '10:00:00', '12:00:00', 1),
+(11, 4, 'jeudi', '15:00:00', '17:00:00', 1),
+(12, 5, 'mercredi', '10:00:00', '12:00:00', 1),
+(13, 5, 'vendredi', '14:00:00', '16:00:00', 1),
+(14, 5, 'samedi', '08:00:00', '10:00:00', 1),
+(15, 6, 'lundi', '18:00:00', '20:00:00', 1),
+(16, 6, 'mercredi', '12:00:00', '14:00:00', 1),
+(17, 6, 'dimanche', '10:00:00', '12:00:00', 1),
+(18, 7, 'mardi', '16:00:00', '18:00:00', 1),
+(19, 7, 'vendredi', '10:00:00', '12:00:00', 1),
+(20, 8, 'lundi', '08:00:00', '10:00:00', 1),
+(21, 8, 'mercredi', '15:00:00', '17:00:00', 1),
+(22, 8, 'samedi', '13:00:00', '15:00:00', 1),
+(23, 9, 'mardi', '13:00:00', '15:00:00', 1),
+(24, 9, 'jeudi', '08:00:00', '10:00:00', 1),
+(25, 10, 'mercredi', '17:00:00', '19:00:00', 1),
+(26, 10, 'vendredi', '09:00:00', '11:00:00', 1),
+(27, 10, 'dimanche', '15:00:00', '17:00:00', 1),
+(28, 11, 'mardi', '07:00:00', '09:00:00', 1),
+(29, 11, 'jeudi', '10:00:00', '12:00:00', 1),
+(30, 11, 'samedi', '16:00:00', '18:00:00', 1),
+(31, 12, 'lundi', '11:00:00', '13:00:00', 1),
+(32, 12, 'mercredi', '08:00:00', '10:00:00', 1),
+(33, 12, 'vendredi', '16:00:00', '18:00:00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `rendez_vous`
+--
+
+DROP TABLE IF EXISTS `rendez_vous`;
+CREATE TABLE IF NOT EXISTS `rendez_vous` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `client_username` varchar(100) NOT NULL,
+  `coach_id` int NOT NULL,
+  `date_rdv` date NOT NULL,
+  `heure_rdv` time NOT NULL,
+  `lieu` varchar(255) NOT NULL,
+  `digicode` varchar(20) DEFAULT NULL,
+  `documents_a_apporter` text,
+  `statut` enum('confirmé','annulé') DEFAULT 'confirmé',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `coach_id` (`coach_id`),
+  KEY `client_username` (`client_username`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `rendez_vous`
+--
+
+INSERT INTO `rendez_vous` (`id`, `client_username`, `coach_id`, `date_rdv`, `heure_rdv`, `lieu`, `digicode`, `documents_a_apporter`, `statut`, `created_at`) VALUES
+(1, 'client1', 1, '2025-05-27', '14:00:00', 'Salle Omnes', NULL, NULL, 'confirmé', '2025-05-27 15:24:03');
 
 -- --------------------------------------------------------
 
