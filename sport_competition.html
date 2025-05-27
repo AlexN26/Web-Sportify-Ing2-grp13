@@ -1,135 +1,194 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sports de Compétition - Sportify</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sports de Compétition - Sportify</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 2rem;
+      color: #1c66af;
+    }
+
+    .sports-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .sport-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .sport-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .sport-card h2 {
+      color: #1c66af;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 10% auto;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #000;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <img src="Images/Logo-sportify.png" alt="Sportify Logo" height="150">
-    </header>
+  <h1>Nos Sports de Compétition</h1>
+  <div class="sports-grid">
+    <div class="sport-card" onclick="openModal('basketball')">
+      <h2>Basketball</h2>
+      <p>Équipe des Dunk Masters – Niveau Universitaire</p>
+    </div>
+    <div class="sport-card" onclick="openModal('football')">
+      <h2>Football</h2>
+      <p>Club des Tireurs Précis – Ligue Régionale 1</p>
+    </div>
+    <div class="sport-card" onclick="openModal('rugby')">
+      <h2>Rugby</h2>
+      <p>Les Plaqueurs Sauvages – Fédérale 2</p>
+    </div>
+    <div class="sport-card" onclick="openModal('tennis')">
+      <h2>Tennis</h2>
+      <p>Team Ace Breakers – Circuit Universitaire</p>
+    </div>
+    <div class="sport-card" onclick="openModal('natation')">
+      <h2>Natation</h2>
+      <p>Les Requins Bleus – Compétitions Inter-Universitaires</p>
+    </div>
+    <div class="sport-card" onclick="openModal('plongeon')">
+      <h2>Plongeon</h2>
+      <p>Les Voltigeurs Aquatiques – Niveau National Espoirs</p>
+    </div>
+    <div class="sport-card" onclick="openModal('triathlon')">
+      <h2>Triathlon</h2>
+      <p>Les Machines de Fer – Équipe Open Élites</p>
+    </div>
+  </div>
 
-    <nav>
-        <a href="Accueil.html">Accueil</a>
-        <a href="Tout_parcourir.html" class="active">Tout parcourir</a>
-        <a href="recherche.html">Recherche</a>
-        <a href="rendez-vous.html">Rendez-vous</a>
-        <a href="votre-compte.html">Votre compte</a>
-    </nav>
+  <!-- Modals -->
+  <div id="basketball" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('basketball')">&times;</span>
+      <h2>Basketball</h2>
+      <p>L'équipe des Dunk Masters affronte régulièrement les meilleures universités du pays. Un collectif qui monte au dunk comme on monte au front — sauvagement et avec panache.</p>
+    </div>
+  </div>
 
-    <main class="categories-container">
-        <!-- Boucle sur chaque sport avec description -->
-        <article class="category-card">
-            <h2>Football</h2>
-            <div class="category-description">
-                <p>L'équipe de football de Sportify joue en Régionale 1. Une équipe qui n'hésite pas à mater sauvagement ses adversaires sur le terrain avec des contre-attaques fulgurantes et une défense de fer.</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Rugby</h2>
-            <div class="category-description">
-                <p>Les rugbymen de Sportify évoluent en Fédérale 2. Ils plaquent, matent et perforent les lignes ennemies comme des buffles en colère... sans oublier de faire des passes bien propres !</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Volley</h2>
-            <div class="category-description">
-                <p>Nos volleyeurs participent au championnat universitaire national. Ils montent au filet comme des faucons, et smashtent comme s'ils voulaient mater le parquet !</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Handball</h2>
-            <div class="category-description">
-                <p>Notre équipe de handball évolue en Nationale 3. Un collectif explosif, capable de retourner un match en deux minutes chrono, et de mater des cages à coup de roquettes !</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Tennis</h2>
-            <div class="category-description">
-                <p>Les tennismen de Sportify participent aux tournois régionaux. Services slicés, revers deux mains bien cochons... tout est bon pour mater l'adversaire en finesse.</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Équitation</h2>
-            <div class="category-description">
-                <p>Nos cavaliers participent aux concours de saut d'obstacles catégorie Club 1. Ils ne sautent pas les étapes, ils sautent carrément les haies en matant les barres comme des pros !</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Basketball</h2>
-            <div class="category-description">
-                <p>L'équipe de basket joue en Régionale 2. Dunks violents, passes aveugles, et shoots à trois points qui matent les paniers à tous les coups !</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Judo</h2>
-            <div class="category-description">
-                <p>Nos judokas participent aux championnats interuniversitaires. Ippon par-ci, balayage par-là, ils matent leurs adversaires à la régulière... et avec élégance !</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Boxe</h2>
-            <div class="category-description">
-                <p>Les boxeurs de Sportify combattent en niveau amateur élite. Crochets dans la tempe, uppercuts enchaînés... une vraie masterclass de matage contrôlé !</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Natation</h2>
-            <div class="category-description">
-                <p>Nos nageurs s'entraînent pour les compétitions départementales et régionales. Crawl, papillon ou dos, ils matent les longueurs comme si c'était un spa privé !</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Athlétisme</h2>
-            <div class="category-description">
-                <p>De la vitesse au fond : nos athlètes participent aux épreuves de 100m à marathon. Ils matent la piste sur 100, 200, 400, 800, 1500, 3000, 5000, 10K route, semi et marathon complet !</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Hockey sur glace</h2>
-            <div class="category-description">
-                <p>Notre équipe glace le sang en division amateur. Patins affûtés, crosses prêtes à mater la rondelle comme il se doit dans la lucarne !</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Ping Pong</h2>
-            <div class="category-description">
-                <p>Nos pongistes évoluent en championnat universitaire. Services vicieux, top-spins dévastateurs... de quoi mater des balles à 70 km/h sur 2m70 de table !</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Triathlon</h2>
-            <div class="category-description">
-                <p>Les triathlètes de Sportify participent à des formats Sprint et Olympique. Enchaîner natation, vélo et course ? Facile, ils matent trois disciplines d’un seul coup sec !</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Football Américain</h2>
-            <div class="category-description">
-                <p>L'équipe joue en championnat étudiant. Des blocks musclés, des touchdowns à gogo... Ils matent la endzone comme des Vikings en conquête !</p>
-            </div>
-        </article>
-        <article class="category-card">
-            <h2>Cyclisme</h2>
-            <div class="category-description">
-                <p>Nos cyclistes prennent part à des cyclosportives régionales. En danseuse ou en chrono, ils matent les cols comme des grimpeurs fous de la pédale !</p>
-            </div>
-        </article>
-    </main>
+  <div id="football" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('football')">&times;</span>
+      <h2>Football</h2>
+      <p>Les Tireurs Précis n'ont pas peur de tirer... des lucarnes. Ils jouent en Ligue Régionale 1 et matent leur adversaire comme Zidane matait la Juventus en 2002.</p>
+    </div>
+  </div>
 
-    <footer>
-        <div class="contact-info">
-            <h3>Contactez-nous</h3>
-            <p>33 Rue des sportifs de l'ECE<br>
-            team.sportify@onnes.com<br>
-            06 33 16 22 31</p>
-        </div>
+  <div id="rugby" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('rugby')">&times;</span>
+      <h2>Rugby</h2>
+      <p>Les Plaqueurs Sauvages portent bien leur nom. Leurs adversaires finissent au sol plus souvent qu’un étudiant en partiels sans sommeil.</p>
+    </div>
+  </div>
 
-        <div class="map">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d46125.16715836869!2d3.6489429259873885!3d43.735004800892554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b3fe268b01f953%3A0x4078821166ab9b0!2s34380%20Viols-le-Fort!5e0!3m2!1sfr!2sfr!4v1748268041768!5m2!1sfr!2sfr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-    </footer>
+  <div id="tennis" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('tennis')">&times;</span>
+      <h2>Tennis</h2>
+      <p>La team Ace Breakers distribue les services gagnants comme des pains un lundi matin. Jeu, set et match en 2 frappes chrono.</p>
+    </div>
+  </div>
+
+  <div id="natation" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('natation')">&times;</span>
+      <h2>Natation</h2>
+      <p>Les Requins Bleus nagent plus vite que leur ombre. En bassin, ils dominent comme Phelps en 2008. Sauvagement.</p>
+    </div>
+  </div>
+
+  <div id="plongeon" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('plongeon')">&times;</span>
+      <h2>Plongeon</h2>
+      <p>Voltige, élégance, et des plongeons qui claquent comme une copie de partiel parfaite — une vraie leçon de style.</p>
+    </div>
+  </div>
+
+  <div id="triathlon" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('triathlon')">&times;</span>
+      <h2>Triathlon</h2>
+      <p>Les Machines de Fer enchaînent nage, vélo et course avec la précision d’un robot programmé pour mater ses concurrents… littéralement.</p>
+    </div>
+  </div>
+
+  <script>
+    function openModal(id) {
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(modal => {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      });
+    };
+  </script>
 </body>
 </html>
