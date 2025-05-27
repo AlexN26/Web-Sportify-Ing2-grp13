@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
+    header("Location: Votre_compte.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
