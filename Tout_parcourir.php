@@ -23,8 +23,8 @@ if (!isset($_SESSION['username'])) {
     <nav>
         <a href="Accueil.php">Accueil</a>
         <a href="Tout_parcourir.php" class="active">Tout parcourir</a>
-        <a href="recherche.html">Recherche</a>
-        <a href="rendez-vous.html">Rendez-vous</a>
+        <a href="recherche.php">Recherche</a>
+        <a href="rendez-vous.php">Rendez-vous</a>
         <a href="Votre_compte.php">Votre compte</a>
     </nav>
     
@@ -35,7 +35,7 @@ if (!isset($_SESSION['username'])) {
                 <p>Découvrez nos activités sportives variées pour tous les niveaux. Que vous soyez débutant ou confirmé, nos coachs vous accompagnent dans votre pratique sportive.</p>
                 <p><strong>Exemples :</strong> Yoga, Natation, Zumba, Pilates, Danse</p>
             </div>
-            <a href="activites-sportives.html" class="btn-category">Voir les activités</a>
+            <a href="activites-sportives.php" class="btn-category">Voir les activités</a>
         </article>
         
         <article class="category-card">
@@ -44,7 +44,7 @@ if (!isset($_SESSION['username'])) {
                 <p>Pratiquez votre sport favori en compétition avec nos équipes et tournois organisés. Encadrement professionnel pour progresser et performer.</p>
                 <p><strong>Exemples :</strong> Football, Basketball, Tennis, Rugby, Volley</p>
             </div>
-            <a href="sport_competition.html" class="btn-category">Découvrir les sports</a>
+            <a href="sport_competition.php" class="btn-category">Découvrir les sports</a>
         </article>
         
         <article class="category-card">
@@ -53,7 +53,7 @@ if (!isset($_SESSION['username'])) {
                 <p>Notre salle de sport haut de gamme propose des équipements modernes et un accompagnement personnalisé pour atteindre vos objectifs.</p>
                 <p><strong>Services :</strong> Musculation, Cardio, CrossFit, Coaching, Cours collectifs</p>
             </div>
-            <a href="salle-sport.html" class="btn-category">Visiter la salle</a>
+            <a href="salle-sport.php" class="btn-category">Visiter la salle</a>
         </article>
     </main>
     
