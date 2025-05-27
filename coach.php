@@ -18,8 +18,8 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'coach') {
     <nav>
         <a href="Accueil.php">Accueil</a>
         <a href="Tout_parcourir.php">Tout parcourir</a>
-        <a href="recherche.html">Recherche</a>
-        <a href="rendez-vous.html">Rendez-vous</a>
+        <a href="recherche.php">Recherche</a>
+        <a href="rendez-vous.php">Rendez-vous</a>
         <a href="Votre_compte.php" >Votre compte</a>
     </nav>
     <h1>Bienvenue <?php echo $_SESSION['username']; ?> !</h1>
