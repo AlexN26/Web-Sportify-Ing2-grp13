@@ -108,9 +108,33 @@ function renderCoach($coach) {
     .close:hover {
       color: #000;
     }
+
+.back-arrow {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: #1c66af;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.back-arrow:hover {
+  color: #0d4b8a;
+}
+
+.back-arrow::before {
+  content: "←";
+  margin-right: 8px;
+  font-size: 1.5rem;
+}
   </style>
 </head>
 <body>
+  <a href="Tout_parcourir.php" class="back-arrow">Retour</a>
   <h1>Nos Activités Sportives</h1>
   <div class="activities-grid">
     <div class="activity-card" onclick="openModal('musculation')">
