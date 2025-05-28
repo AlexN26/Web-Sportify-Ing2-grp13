@@ -1,3 +1,11 @@
+<?php
+$errorMessage = '';
+if (isset($_GET['error']) && $_GET['error'] == 'username') {
+    $errorMessage = "Ce nom d'utilisateur est déjà pris. Veuillez en choisir un autre.";
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -19,6 +27,12 @@
     </nav>
     <div class="login-container">
         <h2>Créer un compte</h2>
+        <?php if (!empty($errorMessage)) : ?>
+            <div style="color: red; font-weight: bold; text-align: center; margin-bottom: 1rem;">
+                <?= htmlspecialchars($errorMessage) ?>
+            </div>
+        <?php endif; ?>
+
         <form action="register.php" method="POST">
             <div class="form-group">
                 <label for="username">Nom d'utilisateur *</label>

@@ -9,7 +9,7 @@ $dbname = "sportify_db";
 
 $conn = new mysqli($servername, $username_db, $password_db, $dbname);
 if ($conn->connect_error) {
-    header("Location: inscription.html?error=db_error");
+    header("Location: inscription.php?error=db_error");
     exit();
 }
 
@@ -19,12 +19,12 @@ $password = $_POST['password'] ?? '';
 $user_type = $_POST['role'] ?? ''; // champ <select name="role">
 
 if (empty($username) || empty($password) || empty($user_type)) {
-    header("Location: inscription.html?error=empty_fields");
+    header("Location: inscription.php?error=empty_fields");
     exit();
 }
 
 if (strlen($username) < 3 || strlen($password) < 6) {
-    header("Location: inscription.html?error=invalid_input");
+    header("Location: inscription.php?error=invalid_input");
     exit();
 }
 
@@ -37,7 +37,7 @@ $stmt->store_result();
 if ($stmt->num_rows > 0) {
     $stmt->close();
     $conn->close();
-    header("Location: inscription.html?error=already_exists");
+    header("Location: inscription.php?error=already_exists");
     exit();
 }
 $stmt->close();
@@ -51,7 +51,7 @@ if ($stmt->execute()) {
     $_SESSION['role'] = $user_type;
     header("Location: Votre_compte.php?success=registered");
 } else {
-    header("Location: inscription.html?error=db_insert_fail");
+    header("Location: inscription.php?error=db_insert_fail");
 }
 
 $stmt->close();
