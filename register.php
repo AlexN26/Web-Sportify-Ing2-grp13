@@ -1,60 +1,42 @@
 <?php
-session_start();
+// Connexion à la BDD
+$conn = new mysqli("localhost", "root", "", "sportify_db");
 
-// Connexion à la base de données
-$servername = "localhost";
-$username_db = "root";
-$password_db = "";
-$dbname = "sportify_db";
-
-$conn = new mysqli($servername, $username_db, $password_db, $dbname);
+// Vérifie la connexion
 if ($conn->connect_error) {
-    header("Location: inscription.php?error=db_error");
-    exit();
+    die("Connexion échouée : " . $conn->connect_error);
 }
 
 // Récupération des données du formulaire
-$username = trim($_POST['username'] ?? '');
-$password = $_POST['password'] ?? '';
-$user_type = $_POST['role'] ?? ''; // champ <select name="role">
+$username = $_POST['username'];
+$password = $_POST['password'];
+$role = $_POST['role'];
 
-if (empty($username) || empty($password) || empty($user_type)) {
-    header("Location: inscription.php?error=empty_fields");
-    exit();
-}
-
-if (strlen($username) < 3 || strlen($password) < 6) {
-    header("Location: inscription.php?error=invalid_input");
-    exit();
-}
-
-// Vérifier si le nom d'utilisateur existe déjà
-$stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
+// Vérification si le nom d'utilisateur existe déjà
+$sql = "SELECT * FROM users WHERE username = ?";
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $username);
 $stmt->execute();
-$stmt->store_result();
+$result = $stmt->get_result();
 
-if ($stmt->num_rows > 0) {
-    $stmt->close();
-    $conn->close();
-    header("Location: inscription.php?error=already_exists");
+if ($result->num_rows > 0) {
+    // Username déjà pris
+    header("Location: inscription.php?error=username");
     exit();
 }
-$stmt->close();
 
-// Insertion en clair du mot de passe
-$stmt = $conn->prepare("INSERT INTO users (username, password, user_type, created_at) VALUES (?, ?, ?, NOW())");
-$stmt->bind_param("sss", $username, $password, $user_type);
+// Hachage du mot de passe
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-if ($stmt->execute()) {
-    $_SESSION['username'] = $username;
-    $_SESSION['role'] = $user_type;
-    header("Location: Votre_compte.php?success=registered");
-} else {
-    header("Location: inscription.php?error=db_insert_fail");
-}
+// Insertion du nouvel utilisateur
+$insertSql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+$insertStmt = $conn->prepare($insertSql);
+$insertStmt->bind_param("sss", $username, $hashedPassword, $role);
+$insertStmt->execute();
 
-$stmt->close();
 $conn->close();
+
+// Redirection après succès
+header("Location: Votre_compte.php");
 exit();
 ?>
