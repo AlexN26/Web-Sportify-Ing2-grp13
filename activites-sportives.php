@@ -165,6 +165,22 @@ function renderCoach($coach) {
       <span class="close" onclick="closeModal('musculation')">&times;</span>
       <h2>Musculation</h2>
       <?= renderCoach(getCoachInfo($conn, 'Musculation')) ?>
+      <div style="text-align:center; margin-top: 20px;">
+      <a href="rendez-vous.php">
+        <button style="
+          padding: 10px 20px;
+          background-color: #1c66af;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        " onmouseover="this.style.backgroundColor='#0d4b8a'" onmouseout="this.style.backgroundColor='#1c66af'">
+          Prendre rendez-vous
+        </button>
+      </a>
+    </div>
     </div>
   </div>
 
@@ -173,6 +189,22 @@ function renderCoach($coach) {
       <span class="close" onclick="closeModal('fitness')">&times;</span>
       <h2>Fitness</h2>
       <?= renderCoach(getCoachInfo($conn, 'Fitness')) ?>
+      <div style="text-align:center; margin-top: 20px;">
+      <a href="rendez-vous.php">
+        <button style="
+          padding: 10px 20px;
+          background-color: #1c66af;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        " onmouseover="this.style.backgroundColor='#0d4b8a'" onmouseout="this.style.backgroundColor='#1c66af'">
+          Prendre rendez-vous
+        </button>
+      </a>
+    </div>
     </div>
   </div>
 
@@ -181,6 +213,22 @@ function renderCoach($coach) {
       <span class="close" onclick="closeModal('biking')">&times;</span>
       <h2>Biking</h2>
       <?= renderCoach(getCoachInfo($conn, 'Biking')) ?>
+      <div style="text-align:center; margin-top: 20px;">
+      <a href="rendez-vous.php">
+        <button style="
+          padding: 10px 20px;
+          background-color: #1c66af;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        " onmouseover="this.style.backgroundColor='#0d4b8a'" onmouseout="this.style.backgroundColor='#1c66af'">
+          Prendre rendez-vous
+        </button>
+      </a>
+    </div>
     </div>
   </div>
 
@@ -189,6 +237,22 @@ function renderCoach($coach) {
       <span class="close" onclick="closeModal('cardio')">&times;</span>
       <h2>Cardio-Training</h2>
       <?= renderCoach(getCoachInfo($conn, 'Cardio-Training')) ?>
+      <div style="text-align:center; margin-top: 20px;">
+      <a href="rendez-vous.php">
+        <button style="
+          padding: 10px 20px;
+          background-color: #1c66af;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        " onmouseover="this.style.backgroundColor='#0d4b8a'" onmouseout="this.style.backgroundColor='#1c66af'">
+          Prendre rendez-vous
+        </button>
+      </a>
+    </div>
     </div>
   </div>
 
@@ -197,6 +261,22 @@ function renderCoach($coach) {
       <span class="close" onclick="closeModal('cours-collectifs')">&times;</span>
       <h2>Cours Collectifs</h2>
       <?= renderCoach(getCoachInfo($conn, 'Cours Collectifs')) ?>
+      <div style="text-align:center; margin-top: 20px;">
+      <a href="rendez-vous.php">
+        <button style="
+          padding: 10px 20px;
+          background-color: #1c66af;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        " onmouseover="this.style.backgroundColor='#0d4b8a'" onmouseout="this.style.backgroundColor='#1c66af'">
+          Prendre rendez-vous
+        </button>
+      </a>
+    </div>
     </div>
   </div>
 
