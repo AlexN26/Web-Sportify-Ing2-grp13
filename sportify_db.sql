@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 27 mai 2025 à 15:24
+-- Généré le : mer. 28 mai 2025 à 12:15
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -147,6 +147,31 @@ CREATE TABLE IF NOT EXISTS `rendez_vous` (
 
 INSERT INTO `rendez_vous` (`id`, `client_username`, `coach_id`, `date_rdv`, `heure_rdv`, `lieu`, `digicode`, `documents_a_apporter`, `statut`, `created_at`) VALUES
 (1, 'client1', 1, '2025-05-27', '14:00:00', 'Salle Omnes', NULL, NULL, 'confirmé', '2025-05-27 15:24:03');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `responsables_salle`
+--
+
+DROP TABLE IF EXISTS `responsables_salle`;
+CREATE TABLE IF NOT EXISTS `responsables_salle` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `prenom` varchar(50) NOT NULL,
+  `nom` varchar(50) NOT NULL,
+  `telephone` varchar(20) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `poste` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `responsables_salle`
+--
+
+INSERT INTO `responsables_salle` (`id`, `prenom`, `nom`, `telephone`, `email`, `poste`) VALUES
+(1, 'Julien', 'Song', '0675034686', 'julien.song@omnes.fr', 'Coach référent'),
+(2, 'Camille', 'Martin', '0704231474', 'camille.martin@omnes.fr', 'Responsable matériel');
 
 -- --------------------------------------------------------
 
