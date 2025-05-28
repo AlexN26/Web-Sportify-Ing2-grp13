@@ -62,12 +62,36 @@ $responsables = getResponsables($conn);
       margin-top: 1rem;
       padding: 1rem;
       background-color: #e9f3ff;
-      border-left: 4px solid #1c66af;
+      border-left: 4px solid #ffffff;
       margin-bottom: 1rem;
     }
+
+    .back-arrow {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.back-arrow:hover {
+  color: #ffffff;
+}
+
+.back-arrow::before {
+  content: "←";
+  margin-right: 8px;
+  font-size: 1.5rem;
+}
   </style>
 </head>
 <body>
+  <a href="Tout_parcourir.php" class="back-arrow">Retour</a>
   <h1>Bienvenue dans la Salle de sport Omnes</h1>
   <div class="content">
     <div class="section">
