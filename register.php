@@ -7,10 +7,22 @@ if ($conn->connect_error) {
     die("Connexion échouée : " . $conn->connect_error);
 }
 
-// Récupération des données du formulaire
-$username = $_POST['username'];
+// On vérifie que les données existent bien dans $_POST
+if (!isset($_POST['username'], $_POST['password'], $_POST['role'])) {
+    // Redirection ou message d'erreur si au moins une donnée manque
+    header("Location: inscription.php?error=missing_data");
+    exit();
+}
+
+$username = trim($_POST['username']);
 $password = $_POST['password'];
-$role = $_POST['role'];
+$role = trim($_POST['role']);
+
+// Vérifie que les champs ne sont pas vides
+if ($username === '' || $password === '' || $role === '') {
+    header("Location: inscription.php?error=empty_fields");
+    exit();
+}
 
 // Vérification si le nom d'utilisateur existe déjà
 $sql = "SELECT * FROM users WHERE username = ?";
@@ -21,17 +33,27 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     // Username déjà pris
-    header("Location: inscription.php?error=username");
+    header("Location: inscription.php?error=username_taken");
     exit();
 }
 
 // Hachage du mot de passe
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-// Insertion du nouvel utilisateur
+// === IMPORTANT ===
+// Vérifie que ta table users a bien une colonne "role"
+// Sinon il faut enlever la colonne role ou la créer dans ta BDD
+
+// Si ta table n'a pas de colonne role, remplace la requête par :
+// $insertSql = "INSERT INTO users (username, password) VALUES (?, ?)";
+// $insertStmt = $conn->prepare($insertSql);
+// $insertStmt->bind_param("ss", $username, $hashedPassword);
+
+// Sinon si elle a la colonne role, fais ça :
 $insertSql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
 $insertStmt = $conn->prepare($insertSql);
 $insertStmt->bind_param("sss", $username, $hashedPassword, $role);
+
 $insertStmt->execute();
 
 $conn->close();
