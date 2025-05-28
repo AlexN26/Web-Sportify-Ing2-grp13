@@ -14,7 +14,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
         default:
             // Si le rôle est inconnu, déconnexion par sécurité
             session_destroy();
-            header("Location: login.php?error=session_error");
+            header("Location: register.php?error=session_error");
     }
     exit();
 }
@@ -206,7 +206,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
             </form>
             
             <div class="register-link">
-                <p>Pas encore de compte ? <a href="inscription.html">Créer un compte</a></p>
+                <p>Pas encore de compte ? <a href="inscription.php">Créer un compte</a></p>
             </div>
         </div>
         
