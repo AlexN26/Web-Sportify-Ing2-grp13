@@ -1,125 +1,110 @@
-<?php
-session_start();
-if (!isset($_SESSION['username'])) {
-    // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
-    header("Location: Votre_compte.php");
-    exit();
-}
-?>
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tout Parcourir - Sportify</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <img src="Images/Logo-sportify.png" alt="Sportify Logo" height="150">
-    </header>
-    
-    <nav>
-        <a href="Accueil.php">Accueil</a>
-        <a href="Tout_parcourir.php" class="active">Tout parcourir</a>
-        <a href="recherche.php">Recherche</a>
-        <a href="rendez-vous.php">Rendez-vous</a>
-        <a href="Votre_compte.php">Votre compte</a>
-    </nav>
-    
-    <main class="categories-container">
-        <article class="category-card">
-            <h2>Activités Sportives</h2>
-            <div class="category-description">
-                <p>Découvrez nos activités sportives variées pour tous les niveaux. Que vous soyez débutant ou confirmé, nos coachs vous accompagnent dans votre pratique sportive.</p>
-                <p><strong>Exemples :</strong> Yoga, Natation, Zumba, Pilates, Danse</p>
-            </div>
-            <a href="activites-sportives.php" class="btn-category">Voir les activités</a>
-        </article>
-        
-        <article class="category-card">
-            <h2>Sports de Compétition</h2>
-            <div class="category-description">
-                <p>Pratiquez votre sport favori en compétition avec nos équipes et tournois organisés. Encadrement professionnel pour progresser et performer.</p>
-                <p><strong>Exemples :</strong> Football, Basketball, Tennis, Rugby, Volley</p>
-            </div>
-            <a href="sport_competition.php" class="btn-category">Découvrir les sports</a>
-        </article>
-        
-        <article class="category-card">
-            <h2>Salle de Sport Omnes</h2>
-            <div class="category-description">
-                <p>Notre salle de sport haut de gamme propose des équipements modernes et un accompagnement personnalisé pour atteindre vos objectifs.</p>
-                <p><strong>Services :</strong> Musculation, Cardio, CrossFit, Coaching, Cours collectifs</p>
-            </div>
-            <a href="salle-sport.php" class="btn-category">Visiter la salle</a>
-        </article>
-    </main>
-    
-    <footer>
-        <div class="contact-info">
-            <h3>Contactez-nous</h3>
-            <p>33 Rue des sportifs de l'ECE<br>
-            team.sportify@onnes.com<br>
-            06 33 16 22 31</p>
-        </div>
-
-        <div class="map">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d46125.16715836869!2d3.6489429259873885!3d43.735004800892554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b3fe268b01f953%3A0x4078821166ab9b0!2s34380%20Viols-le-Fort!5e0!3m2!1sfr!2sfr!4v1748268041768!5m2!1sfr!2sfr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-    </footer>
-</body>
-</html>
-
-Modifie pour que ce code suive le style de ce css :
-
+/* === Général === */
 body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-        header {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+}
+
+/* === Header === */
+header {
     background-color: #1c66af;
     color: white;
-    padding: 0.3rem; /* Réduit de 0.5rem */
+    padding: 0.3rem;
     text-align: center;
-    height: 80px; /* Hauteur fixe */
+    height: 80px;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centre verticalement le contenu */
+    justify-content: center;
 }
 
 header img {
-    height: 250%; /* Taille réduite du logo */
-    width: auto; /* Maintient les proportions */
-    margin: 0 auto; /* Centre le logo horizontalement */
+    height: 250%;
+    width: auto;
+    margin: 0 auto;
 }
-        nav {
-            display: flex;
-            justify-content: center;
-            background-color: #1c66af;
-            padding: 0.5rem;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0.1rem;
-            padding: 0.5rem;
-            transition: all 0.3s ease;
-        }
-        nav a:hover {
-            background-color: #0d4b8a;
-            border-radius: 4px;
-        }
-        
-        /* Carrousel amélioré */
-        
-        .carousel-container {
+
+/* === Navigation === */
+nav {
+    display: flex;
+    justify-content: center;
+    background-color: #1c66af;
+    padding: 0.5rem;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0.1rem 0.5rem;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+
+nav a:hover,
+nav a.active {
+    background-color: #0d4b8a;
+}
+
+/* === Conteneur principal des catégories === */
+.categories-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* === Cartes de catégorie === */
+.category-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+    transform: scale(1.02);
+}
+
+.category-card h2 {
+    color: #1c66af;
+    margin-bottom: 1rem;
+}
+
+.category-description {
+    margin-bottom: 1rem;
+}
+
+/* === Boutons de catégorie === */
+.btn-category,
+.en-savoir-plus {
+    display: inline-block;
+    background-color: #1c66af;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.btn-category:hover,
+.en-savoir-plus:hover {
+    background-color: #0d4b8a;
+}
+
+/* === Carrousel (si utilisé) === */
+.carousel-container {
     position: relative;
     width: 100%;
-    max-width: 400px; /* Ajoutez une largeur maximale */
+    max-width: 400px;
     margin: 1rem auto;
     overflow: hidden;
 }
@@ -127,109 +112,137 @@ header img {
 .carousel {
     display: flex;
     transition: transform 0.5s ease;
-    height: 400px; /* Hauteur fixe */
+    height: 400px;
 }
 
 .carousel img {
-    width: 100%; /* Prend toute la largeur du conteneur */
-    height: 100%; /* Prend toute la hauteur du conteneur */
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    flex-shrink: 0; /* Empêche le rétrécissement des images */
+    flex-shrink: 0;
 }
 
-        
-        
-        
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0,0,0,0.5);
-            color: white;
-            border: none;
-            padding: 1rem;
-            cursor: pointer;
-            font-size: 1.5rem;
-            z-index: 10;
-             
-        }
-        #prevBtn {
-            left: 10px;
-        }
-        #nextBtn {
-            right: 10px;
-        }
-        .carousel-btn:hover {
-            background-color: rgba(0,0,0,0.8);
-        }
-        
-        .welcome {
-            text-align: center;
-            padding: 2rem;
-            background-color: #f8f9fa;
-        }
-        .event-section {
-            padding: 1rem;
-            margin: 1rem auto;
-            max-width: 800px;
-        }
-        .event-card {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 1rem;
-            margin: 1rem 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .event-card img {
-            width: 400px;
-            max-height: 300px;
-            object-fit: cover;
-            margin-bottom: 1rem;
-            border-radius: 4px;
-        }
-        footer {
-            background-color: #1c66af;
-            color: white;
-            padding: 2rem 4rem;
-            margin-top: 1rem;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 2rem;
-            align-items: flex-start;
-            text-align: left;
-        }
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    z-index: 10;
+}
 
-        footer .contact-info {
-            max-width: 300px;
-            flex: 1;
-            min-width: 250px;
-        }
+#prevBtn {
+    left: 10px;
+}
 
-        footer .map {
-            height: 200px;
-            flex: 1;
-            min-width: 300px;
-            max-width: 500px;
-            margin: 0 auto;  
-        }
+#nextBtn {
+    right: 10px;
+}
 
-        .map {
-            height: 200px;
-            margin: 1rem auto;
-            max-width: 800px;
-        }
-        .en-savoir-plus {
-            display: inline-block;
-            background-color: #1c66af;
-            color: white;
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-top: 0.5rem;
-        }
-        .en-savoir-plus:hover {
-            background-color: #0d4b8a;
-        }
+.carousel-btn:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+/* === Accueil / Bienvenue === */
+.welcome {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f8f9fa;
+}
+
+/* === Section d'événements (si utilisée ailleurs) === */
+.event-section {
+    padding: 2rem;
+    margin: 0 auto;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.event-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.event-card:hover {
+    transform: scale(1.02);
+}
+
+.event-card h2 {
+    color: #1c66af;
+    margin-bottom: 1rem;
+}
+
+/* === Pied de page === */
+footer {
+    background-color: #1c66af;
+    color: white;
+    padding: 2rem 4rem;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: flex-start;
+    text-align: left;
+}
+
+footer .contact-info {
+    max-width: 300px;
+    flex: 1;
+    min-width: 250px;
+}
+
+footer .map {
+    height: 200px;
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+}
+
+/* Si la map est utilisée seule */
+.map {
+    height: 200px;
+    margin: 1rem auto;
+    max-width: 800px;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .categories-container,
+    .event-section {
+        padding: 1rem;
+    }
+
+    .category-card,
+    .event-card {
+        padding: 1rem;
+    }
+
+    footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    footer .map {
+        width: 100%;
+        max-width: 100%;
+    }
+}
