@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 28 mai 2025 à 16:11
+-- Généré le : jeu. 29 mai 2025 à 14:53
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY (`id`),
   KEY `sender_username` (`sender_username`(250)),
   KEY `receiver_username` (`receiver_username`(250))
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `messages`
@@ -147,7 +147,39 @@ INSERT INTO `messages` (`id`, `sender_username`, `receiver_username`, `message`,
 (2, 'client1', 'vincent', 'lalalalalalal', '2025-05-28 16:59:29'),
 (3, 'client1', 'vincent', 'alex est full bg', '2025-05-28 17:34:31'),
 (4, 'client1', 'vincent1', 'bubuvezbvize', '2025-05-28 17:36:18'),
-(5, 'client1', 'vincent1', 'alex est full bg', '2025-05-28 17:43:37');
+(5, 'client1', 'vincent1', 'alex est full bg', '2025-05-28 17:43:37'),
+(6, 'client1', 'vincent1', 'Bonjour', '2025-05-28 21:01:23'),
+(7, 'vincent1', 'client1', 'lalalalaal', '2025-05-29 11:56:55'),
+(8, 'vincent1', 'client1', 'lalalalala', '2025-05-29 11:59:42'),
+(9, 'vincent1', 'client1', 'bonjour', '2025-05-29 12:00:29'),
+(10, 'vincent1', 'client1', 'de bruyne le goat', '2025-05-29 12:19:41');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `paiement`
+--
+
+DROP TABLE IF EXISTS `paiement`;
+CREATE TABLE IF NOT EXISTS `paiement` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `client_username` varchar(100) NOT NULL,
+  `nom_complet` varchar(100) NOT NULL,
+  `adresse1` varchar(255) NOT NULL,
+  `adresse2` varchar(255) DEFAULT NULL,
+  `ville` varchar(100) NOT NULL,
+  `code_postal` varchar(20) NOT NULL,
+  `pays` varchar(100) NOT NULL,
+  `telephone` varchar(20) DEFAULT NULL,
+  `carte_etudiant` varchar(100) DEFAULT NULL,
+  `type_carte` enum('Visa','MasterCard','American Express','PayPal') NOT NULL,
+  `numero_carte` varchar(20) NOT NULL,
+  `nom_carte` varchar(100) NOT NULL,
+  `date_expiration` date NOT NULL,
+  `code_securite` varchar(4) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `client_username` (`client_username`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
