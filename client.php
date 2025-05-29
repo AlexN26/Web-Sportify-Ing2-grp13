@@ -18,46 +18,64 @@ try {
     die("Erreur connexion base de données : " . $e->getMessage());
 }
 
-// Tableau associatif email => username des coachs
-$coach_map = [
-    "vincent.triathlon@sportify.fr" => "vincent1",
-    "coach2@sportify.fr" => "coach2",
-    "coach3@sportify.fr" => "coach3"
-];
+$client_username = $_SESSION['username'];
 
 $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $sender_username = $_SESSION['username'];
-    $receiver_email = filter_var($_POST['email'] ?? '', FILTER_VALIDATE_EMAIL);
+    $sender_username = $client_username;
+    $receiver_username = trim($_POST['receiver_username'] ?? '');
     $message = trim($_POST['message'] ?? '');
 
-    if (!$receiver_email) {
-        $error = "Adresse email du coach invalide.";
+    if (empty($receiver_username)) {
+        $error = "Veuillez saisir un nom d'utilisateur.";
     } elseif (empty($message)) {
         $error = "Veuillez écrire un message.";
-    } elseif (!array_key_exists($receiver_email, $coach_map)) {
-        $error = "Adresse email du coach non autorisée.";
+    } elseif (!preg_match('/^[a-zA-Z0-9_]+$/', $receiver_username)) {
+        $error = "Nom d'utilisateur invalide. Seuls les lettres, chiffres et underscores sont autorisés.";
     } else {
-        $receiver_username = $coach_map[$receiver_email];
+        // Vérification que le destinataire existe et est un coach
+        $stmt = $pdo->prepare("SELECT username, role FROM users WHERE username = ?");
+        $stmt->execute([$receiver_username]);
+        $user = $stmt->fetch();
 
-        $sql = "INSERT INTO messages (sender_username, receiver_username, message, timestamp) 
-                VALUES (:sender, :receiver, :message, NOW())";
-        $stmt = $pdo->prepare($sql);
+        if (!$user) {
+            $error = "L'utilisateur $receiver_username n'existe pas.";
+        } elseif ($user['role'] !== 'coach') {
+            $error = "Vous ne pouvez envoyer des messages qu'aux coachs.";
+        } else {
+            $sql = "INSERT INTO messages (sender_username, receiver_username, message, timestamp) 
+                    VALUES (:sender, :receiver, :message, NOW())";
+            $stmt = $pdo->prepare($sql);
 
-        try {
-            $stmt->execute([
-                ':sender' => $sender_username,
-                ':receiver' => $receiver_username,
-                ':message' => $message,
-            ]);
-            $success = "Message envoyé avec succès au coach $receiver_username.";
-        } catch (Exception $e) {
-            $error = "Erreur lors de l'envoi du message : " . $e->getMessage();
+            try {
+                $stmt->execute([
+                    ':sender' => $sender_username,
+                    ':receiver' => $receiver_username,
+                    ':message' => $message,
+                ]);
+                $success = "Message envoyé avec succès à $receiver_username.";
+            } catch (Exception $e) {
+                $error = "Erreur lors de l'envoi du message : " . $e->getMessage();
+            }
         }
     }
 }
+
+// Lire un message en détail
+$message_detail = null;
+if (isset($_GET['msg_id'])) {
+    $msg_id = (int) $_GET['msg_id'];
+    $stmt = $pdo->prepare("SELECT * FROM messages WHERE id = ? AND (receiver_username = ? OR sender_username = ?)");
+    $stmt->execute([$msg_id, $client_username, $client_username]);
+    $message_detail = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Récupérer tous les messages
+$stmt = $pdo->prepare("SELECT * FROM messages WHERE receiver_username = ? OR sender_username = ? ORDER BY timestamp DESC");
+$stmt->execute([$client_username, $client_username]);
+$messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -70,30 +88,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        .content {
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 30px;
-            flex: 1;
         }
         header img {
             height: 150px;
         }
         nav {
-            padding: 0 30px;
+            padding: 10px;
+            background: #f0f0f0;
         }
         nav a {
             margin-right: 15px;
             text-decoration: none;
             color: #333;
         }
-        nav a:hover {
-            text-decoration: underline;
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
         }
         .error {
             color: #d33;
@@ -109,73 +120,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 4px;
             margin-bottom: 15px;
         }
-        form {
+        .message-box {
+            display: flex;
             margin-top: 20px;
-            width: 100%;
         }
-        label {
-            font-weight: bold;
-            display: block;
-            margin-top: 15px;
+        .message-list {
+            width: 40%;
+            padding-right: 20px;
         }
-        select, textarea {
+        .message-detail {
+            width: 60%;
+            padding-left: 20px;
+            border-left: 1px solid #ddd;
+        }
+        .message-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .message-item:hover {
+            background: #f5f5f5;
+        }
+        input[type="text"], textarea {
             width: 100%;
             padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
+            margin: 5px 0 15px;
+            border: 1px solid #ddd;
             border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 14px;
-            resize: vertical;
         }
         button {
-            background-color: #1c66af;
+            background: #1c66af;
             color: white;
-            padding: 10px 20px;
+            padding: 10px 15px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
-            margin-top: 15px;
-        }
-        button:hover {
-            background-color: #1c66af;
         }
         footer {
-            background-color: #1c66af;
-            width: 100%;
-            padding: 20px 0;
-            margin-top: 40px;
-            font-size: 0.9em;
-            color: white; /* Couleur du texte en blanc */
-        }
-        .contact-info {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 30px;
-            color: white; /* Couleur du texte en blanc */
-        }
-        .contact-info h3 {
-            margin-bottom: 10px;
-            color: white; /* Couleur du texte en blanc */
-        }
-        .contact-info p {
-            color: white; /* Couleur du texte en blanc */
-        }
-        .clearfix::after {
-            content: "";
-            clear: both;
-            display: table;
+            background: #1c66af;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-
-<header class="content">
+<header>
     <img src="Images/Logo-sportify.png" alt="Sportify Logo">
 </header>
 
-<nav class="content">
+<nav>
     <a href="Accueil.php">Accueil</a>
     <a href="Tout_parcourir.php">Tout parcourir</a>
     <a href="recherche.php">Recherche</a>
@@ -184,39 +179,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <a href="logout.php" style="color: #d33;">Déconnexion</a>
 </nav>
 
-<main class="content">
+<div class="container">
     <h1>Bienvenue <?php echo htmlspecialchars($_SESSION['username']); ?> !</h1>
     <p>Vous êtes connecté en tant que CLIENT</p>
-
-    <hr>
-
-    <h2>Envoyer un message à un coach</h2>
 
     <?php if ($error): ?>
         <div class="error"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
-
+    
     <?php if ($success): ?>
         <div class="success"><?= htmlspecialchars($success) ?></div>
     <?php endif; ?>
 
-    <form method="post" action="client.php">
-        <label for="email">Choisissez le coach (email) :</label>
-        <select name="email" id="email" required>
-            <option value="">-- Sélectionnez un coach --</option>
-            <?php foreach ($coach_map as $email => $username): ?>
-                <option value="<?= htmlspecialchars($email) ?>" <?= (isset($_POST['email']) && $_POST['email'] === $email) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($email) ?> (<?= htmlspecialchars($username) ?>)
-                </option>
-            <?php endforeach; ?>
-        </select>
+    <div class="message-box">
+        <div class="message-list">
+            <h2>Boîte de messagerie</h2>
+            
+            <h3>Envoyer un message</h3>
+            <form method="post" action="client.php">
+                <label for="receiver_username">Destinataire (nom d'utilisateur du coach) :</label>
+                <input type="text" name="receiver_username" id="receiver_username" required>
+                
+                <label for="message">Message :</label>
+                <textarea name="message" id="message" rows="4" required></textarea>
 
-        <label for="message">Message :</label>
-        <textarea name="message" id="message" rows="6" required><?= htmlspecialchars($_POST['message'] ?? '') ?></textarea>
+                <button type="submit">Envoyer</button>
+            </form>
+            
+            <h3>Messages</h3>
+            <?php if (count($messages) === 0): ?>
+                <p>Aucun message.</p>
+            <?php else: ?>
+                <?php foreach ($messages as $msg): ?>
+                    <div class="message-item" onclick="location.href='client.php?msg_id=<?= $msg['id'] ?>'">
+                        <strong>
+                            <?= ($msg['sender_username'] === $client_username) 
+                                ? "À " . htmlspecialchars($msg['receiver_username']) 
+                                : "De " . htmlspecialchars($msg['sender_username']) ?>
+                        </strong>
+                        <p><?= htmlspecialchars(substr($msg['message'], 0, 50)) . (strlen($msg['message']) > 50 ? '...' : '') ?></p>
+                        <small><?= $msg['timestamp'] ?></small>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
 
-        <button type="submit">Envoyer</button>
-    </form>
-</main>
+        <div class="message-detail">
+            <?php if ($message_detail): ?>
+                <h2>Détail du message</h2>
+                <p><strong><?= ($message_detail['sender_username'] === $client_username) ? "À :" : "De :" ?></strong> 
+                   <?= ($message_detail['sender_username'] === $client_username) 
+                      ? htmlspecialchars($message_detail['receiver_username']) 
+                      : htmlspecialchars($message_detail['sender_username']) ?>
+                </p>
+                <p><strong>Date :</strong> <?= $message_detail['timestamp'] ?></p>
+                <hr>
+                <p><?= nl2br(htmlspecialchars($message_detail['message'])) ?></p>
+            <?php else: ?>
+                <p>Sélectionnez un message pour le lire.</p>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
 
 <footer>
     <div class="contact-info">
@@ -226,6 +250,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             06 33 16 22 31</p>
     </div>
 </footer>
-
 </body>
 </html>
