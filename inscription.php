@@ -43,8 +43,8 @@ if (isset($_GET['error']) && $_GET['error'] == 'username') {
                 <input type="password" id="password" name="password" required minlength="6">
             </div>
             <div class="form-group">
-                <label for="role">Rôle *</label>
-                <select id="role" name="role" required>
+                <label for="user_type">Rôle *</label>
+                <select id="user_type" name="user_type" required>
                     <option value="client">Client</option>
                     
                 </select>

@@ -8,7 +8,7 @@ if ($conn->connect_error) {
 }
 
 // On vérifie que les données existent bien dans $_POST
-if (!isset($_POST['username'], $_POST['password'], $_POST['role'])) {
+if (!isset($_POST['username'], $_POST['password'], $_POST['user_type'])) {
     // Redirection ou message d'erreur si au moins une donnée manque
     header("Location: inscription.php?error=missing_data");
     exit();
@@ -16,7 +16,7 @@ if (!isset($_POST['username'], $_POST['password'], $_POST['role'])) {
 
 $username = trim($_POST['username']);
 $password = $_POST['password'];
-$role = trim($_POST['role']);
+$role = trim($_POST['user_type']);
 
 // Vérifie que les champs ne sont pas vides
 if ($username === '' || $password === '' || $role === '') {
@@ -37,7 +37,7 @@ if ($result->num_rows > 0) {
     exit();
 }
 
-// Hachage du mot de passe
+// Hachage du mot de passe pour ne pas le voir dans la base de donne
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
 // === IMPORTANT ===
@@ -50,9 +50,9 @@ $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 // $insertStmt->bind_param("ss", $username, $hashedPassword);
 
 // Sinon si elle a la colonne role, fais ça :
-$insertSql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
+$insertSql = "INSERT INTO users (username, password, user_type) VALUES (?, ?, ?)";
 $insertStmt = $conn->prepare($insertSql);
-$insertStmt->bind_param("sss", $username, $hashedPassword, $role);
+$insertStmt->bind_param("sss", $username, $password, $role);
 
 $insertStmt->execute();
 
