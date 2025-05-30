@@ -124,25 +124,46 @@ if (isset($_GET['highlight'])) {
       margin-bottom: 0.5rem;
     }
     .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.5);
-    }
-    .modal-content {
-      background-color: white;
-      margin: 10% auto;
-      padding: 2rem;
-      border-radius: 10px;
-      width: 80%;
-      max-width: 600px;
-      box-shadow: 0 2px 15px rgba(0,0,0,0.3);
-    }
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.popup-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+}
     .close {
       color: #aaa;
       float: right;
@@ -239,118 +260,211 @@ if (isset($_GET['highlight'])) {
     </div>
   </div>
 
-  <!-- Modals -->
   <div id="basketball" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('basketball')">&times;</span>
-      <h2>Basketball</h2>
-      <?= renderCoach(getCoachInfo($conn, 'basketball')) ?>
-      <div class="button-container">
-        <a href="rendez-vous.php">
-          <button class="rdv-button">Prendre rendez-vous</button>
-        </a>
-        <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
-          <button class="msg-button">Envoyer un message</button>
-        </a>
-      </div>
+        <span class="close" onclick="closeModal('basketball')">&times;</span>
+        <h2>Basketball</h2>
+        <?php 
+        $coach = getCoachInfo($conn, 'Basketball');
+        echo renderCoach($coach); 
+        ?>
+        <div class="button-container">
+            <a href="rendez-vous.php">
+                <button class="rdv-button">Prendre rendez-vous</button>
+            </a>
+            <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
+                <button class="msg-button">Envoyer un message</button>
+            </a>
+            <a href="javascript:void(0);" onclick="afficherPopupCV(<?= $coach['id'] ?? 'null' ?>)">
+                <button class="msg-button">CV</button>
+            </a>
+        </div>
     </div>
-  </div>
+</div>
 
   <div id="football" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('football')">&times;</span>
-      <h2>Football</h2>
-      <?= renderCoach(getCoachInfo($conn, 'football')) ?>
-      <div class="button-container">
-        <a href="rendez-vous.php">
-          <button class="rdv-button">Prendre rendez-vous</button>
-        </a>
-        <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
-          <button class="msg-button">Envoyer un message</button>
-        </a>
-      </div>
+        <span class="close" onclick="closeModal('football')">&times;</span>
+        <h2>Football</h2>
+        <?php 
+        $coach = getCoachInfo($conn, 'Football');
+        echo renderCoach($coach); 
+        ?>
+        <div class="button-container">
+            <a href="rendez-vous.php">
+                <button class="rdv-button">Prendre rendez-vous</button>
+            </a>
+            <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
+                <button class="msg-button">Envoyer un message</button>
+            </a>
+            <a href="javascript:void(0);" onclick="afficherPopupCV(<?= $coach['id'] ?? 'null' ?>)">
+                <button class="msg-button">CV</button>
+            </a>
+        </div>
     </div>
-  </div>
+</div>
 
   <div id="rugby" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('rugby')">&times;</span>
-      <h2>Rugby</h2>
-      <?= renderCoach(getCoachInfo($conn, 'rugby')) ?>
-      <div class="button-container">
-        <a href="rendez-vous.php">
-          <button class="rdv-button">Prendre rendez-vous</button>
-        </a>
-        <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
-          <button class="msg-button">Envoyer un message</button>
-        </a>
-      </div>
+        <span class="close" onclick="closeModal('rugby')">&times;</span>
+        <h2>Rugby</h2>
+        <?php 
+        $coach = getCoachInfo($conn, 'Rugby');
+        echo renderCoach($coach); 
+        ?>
+        <div class="button-container">
+            <a href="rendez-vous.php">
+                <button class="rdv-button">Prendre rendez-vous</button>
+            </a>
+            <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
+                <button class="msg-button">Envoyer un message</button>
+            </a>
+            <a href="javascript:void(0);" onclick="afficherPopupCV(<?= $coach['id'] ?? 'null' ?>)">
+                <button class="msg-button">CV</button>
+            </a>
+        </div>
     </div>
-  </div>
+</div>
 
   <div id="tennis" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('tennis')">&times;</span>
-      <h2>Tennis</h2>
-      <?= renderCoach(getCoachInfo($conn, 'tennis')) ?>
-      <div class="button-container">
-        <a href="rendez-vous.php">
-          <button class="rdv-button">Prendre rendez-vous</button>
-        </a>
-        <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
-          <button class="msg-button">Envoyer un message</button>
-        </a>
-      </div>
+        <span class="close" onclick="closeModal('tennis')">&times;</span>
+        <h2>Tennis</h2>
+        <?php 
+        $coach = getCoachInfo($conn, 'Tennis');
+        echo renderCoach($coach); 
+        ?>
+        <div class="button-container">
+            <a href="rendez-vous.php">
+                <button class="rdv-button">Prendre rendez-vous</button>
+            </a>
+            <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
+                <button class="msg-button">Envoyer un message</button>
+            </a>
+            <a href="javascript:void(0);" onclick="afficherPopupCV(<?= $coach['id'] ?? 'null' ?>)">
+                <button class="msg-button">CV</button>
+            </a>
+        </div>
     </div>
-  </div>
+</div>
 
   <div id="natation" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('natation')">&times;</span>
-      <h2>Natation</h2>
-      <?= renderCoach(getCoachInfo($conn, 'natation')) ?>
-      <div class="button-container">
-        <a href="rendez-vous.php">
-          <button class="rdv-button">Prendre rendez-vous</button>
-        </a>
-        <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
-          <button class="msg-button">Envoyer un message</button>
-        </a>
-      </div>
+        <span class="close" onclick="closeModal('natation')">&times;</span>
+        <h2>Natation</h2>
+        <?php 
+        $coach = getCoachInfo($conn, 'Natation');
+        echo renderCoach($coach); 
+        ?>
+        <div class="button-container">
+            <a href="rendez-vous.php">
+                <button class="rdv-button">Prendre rendez-vous</button>
+            </a>
+            <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
+                <button class="msg-button">Envoyer un message</button>
+            </a>
+            <a href="javascript:void(0);" onclick="afficherPopupCV(<?= $coach['id'] ?? 'null' ?>)">
+                <button class="msg-button">CV</button>
+            </a>
+        </div>
     </div>
-  </div>
+</div>
 
   <div id="plongeon" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('plongeon')">&times;</span>
-      <h2>Plongeon</h2>
-      <?= renderCoach(getCoachInfo($conn, 'plongeon')) ?>
-      <div class="button-container">
-        <a href="rendez-vous.php">
-          <button class="rdv-button">Prendre rendez-vous</button>
-        </a>
-        <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
-          <button class="msg-button">Envoyer un message</button>
-        </a>
-      </div>
+        <span class="close" onclick="closeModal('plongeon')">&times;</span>
+        <h2>Plongeon</h2>
+        <?php 
+        $coach = getCoachInfo($conn, 'Plongeon');
+        echo renderCoach($coach); 
+        ?>
+        <div class="button-container">
+            <a href="rendez-vous.php">
+                <button class="rdv-button">Prendre rendez-vous</button>
+            </a>
+            <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
+                <button class="msg-button">Envoyer un message</button>
+            </a>
+            <a href="javascript:void(0);" onclick="afficherPopupCV(<?= $coach['id'] ?? 'null' ?>)">
+                <button class="msg-button">CV</button>
+            </a>
+        </div>
     </div>
-  </div>
+</div>
 
   <div id="triathlon" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('triathlon')">&times;</span>
-      <h2>Triathlon</h2>
-      <?= renderCoach(getCoachInfo($conn, 'Triathlon')) ?>
-      <div class="button-container">
-        <a href="rendez-vous.php">
-          <button class="rdv-button">Prendre rendez-vous</button>
-        </a>
-        <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
-          <button class="msg-button">Envoyer un message</button>
-        </a>
-      </div>
+        <span class="close" onclick="closeModal('triathlon')">&times;</span>
+        <h2>Triathlon</h2>
+        <?php 
+        $coach = getCoachInfo($conn, 'Triathlon');
+        echo renderCoach($coach); 
+        ?>
+        <div class="button-container">
+            <a href="rendez-vous.php">
+                <button class="rdv-button">Prendre rendez-vous</button>
+            </a>
+            <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
+                <button class="msg-button">Envoyer un message</button>
+            </a>
+            <a href="javascript:void(0);" onclick="afficherPopupCV(<?= $coach['id'] ?? 'null' ?>)">
+                <button class="msg-button">CV</button>
+            </a>
+        </div>
+    </div>
+</div>
+  <div id="popupCV" class="popup" style="display:none;">
+  <div class="popup-content">
+    <span class="close" onclick="fermerPopupCV()">&times;</span>
+    <h2>CV du coach</h2>
+    <div id="cv-content">
+      <script>
+function afficherPopupCV(coachId) {
+    if (!coachId) {
+        alert("Aucun coach sélectionné");
+        return;
+    }
+    
+    fetch('get_cv_coach.php?id=' + coachId)
+        .then(response => {
+            if (!response.ok) throw new Error('Erreur réseau');
+            return response.json();
+        })
+        .then(data => {
+            const content = `
+                <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                    <img src="${data.photo}" alt="Photo" style="width:120px;height:120px;border-radius:10px;object-fit:cover;">
+                    <div>
+                        <p><strong>Nom :</strong> ${data.nom} ${data.prenom}</p>
+                        <p><strong>Spécialité :</strong> ${data.domaine_expertise}</p>
+                        <p><strong>Salle :</strong> ${data.salle}</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>Informations professionnelles</h3>
+                    <p><strong>Expérience :</strong> ${data.experience}</p>
+                    <p><strong>Diplômes :</strong> ${data.diplomes}</p>
+                    <p><strong>Description :</strong><br>${data.description}</p>
+                </div>
+            `;
+            document.getElementById('cv-content').innerHTML = content;
+            document.getElementById('popupCV').style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert("Erreur lors du chargement du CV");
+        });
+}
+
+function fermerPopupCV() {
+    document.getElementById('popupCV').style.display = 'none';
+}
+</script>
+
     </div>
   </div>
+</div>
+
 
   <script>
     function openModal(id) {

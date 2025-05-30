@@ -1,11 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
+    // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
     header("Location: Votre_compte.php");
     exit();
 }
 
-// Connexion BDD
 $servername = "localhost";
 $username_db = "root";
 $password_db = "";
@@ -58,8 +58,20 @@ function renderCoach($coach) {
         $horaires_html
     </div>";
 }
-
 ?>
+
+<?php
+// Surligner les résultats si une recherche est passée
+if (isset($_GET['highlight'])) {
+    $highlight = $_GET['highlight'];
+    function highlightText($text) {
+        global $highlight;
+        return preg_replace("/($highlight)/i", '<span style="background-color:yellow;">$1</span>', $text);
+    }
+    ob_start();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -78,7 +90,7 @@ function renderCoach($coach) {
       padding: 2rem;
       color: #1c66af;
     }
-    .activities-grid {
+    .sports-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
@@ -86,7 +98,7 @@ function renderCoach($coach) {
       max-width: 1200px;
       margin: 0 auto;
     }
-    .activity-card {
+    .sport-card {
       background-color: white;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -95,33 +107,54 @@ function renderCoach($coach) {
       cursor: pointer;
       transition: transform 0.2s ease;
     }
-    .activity-card:hover {
+    .sport-card:hover {
       transform: translateY(-5px);
     }
-    .activity-card h2 {
+    .sport-card h2 {
       color: #1c66af;
       margin-bottom: 0.5rem;
     }
     .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.5);
-    }
-    .modal-content {
-      background-color: white;
-      margin: 10% auto;
-      padding: 2rem;
-      border-radius: 10px;
-      width: 80%;
-      max-width: 600px;
-      box-shadow: 0 2px 15px rgba(0,0,0,0.3);
-    }
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.popup-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+}
     .close {
       color: #aaa;
       float: right;
@@ -187,117 +220,199 @@ function renderCoach($coach) {
 <body>
   <a href="Tout_parcourir.php" class="back-arrow">Retour</a>
   <h1>Nos Activités Sportives</h1>
-  <div class="activities-grid">
-    <div class="activity-card" onclick="openModal('musculation')">
+  <div class="sports-grid">
+    <div class="sport-card" onclick="openModal('musculation')">
       <h2>Musculation</h2>
-      <p>Renforcez votre corps et gagnez en puissance grâce à des programmes adaptés à tous les niveaux.</p>
+      <p>Renforcez votre corps avec nos programmes personnalisés</p>
     </div>
-    <div class="activity-card" onclick="openModal('fitness')">
+    <div class="sport-card" onclick="openModal('fitness')">
       <h2>Fitness</h2>
-      <p>Des séances dynamiques pour améliorer votre condition physique dans une ambiance motivante.</p>
+      <p>Améliorez votre condition physique dans une ambiance motivante</p>
     </div>
-    <div class="activity-card" onclick="openModal('biking')">
+    <div class="sport-card" onclick="openModal('biking')">
       <h2>Biking</h2>
       <p>Un entraînement cardio intense sur vélo pour brûler des calories en rythme avec la musique.</p>
     </div>
-    <div class="activity-card" onclick="openModal('cardio')">
+    <div class="sport-card" onclick="openModal('cardio')">
       <h2>Cardio-Training</h2>
       <p>Optimisez votre endurance avec des machines modernes et des sessions personnalisées.</p>
     </div>
-    <div class="activity-card" onclick="openModal('cours-collectifs')">
+    <div class="sport-card" onclick="openModal('cours-collectifs')">
       <h2>Cours Collectifs</h2>
-      <p>Rejoignez nos cours en groupe pour booster votre motivation et varier les plaisirs.</p>
+      <p>ejoignez nos cours en groupe pour booster votre motivation et varier les plaisirs.</p>
     </div>
   </div>
 
-  <!-- Modals -->
   <div id="musculation" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('musculation')">&times;</span>
-      <h2>Musculation</h2>
-      <?= renderCoach(getCoachInfo($conn, 'Musculation')) ?>
-      <div class="button-container">
-        <a href="rendez-vous.php">
-          <button class="rdv-button">Prendre rendez-vous</button>
-        </a>
-        <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
-          <button class="msg-button">Envoyer un message</button>
-        </a>
-      </div>
+        <span class="close" onclick="closeModal('musculation')">&times;</span>
+        <h2>Musculation</h2>
+        <?php 
+        $coach = getCoachInfo($conn, 'Musculation');
+        echo renderCoach($coach); 
+        ?>
+        <div class="button-container">
+            <a href="rendez-vous.php">
+                <button class="rdv-button">Prendre rendez-vous</button>
+            </a>
+            <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
+                <button class="msg-button">Envoyer un message</button>
+            </a>
+            <a href="javascript:void(0);" onclick="afficherPopupCV(<?= $coach['id'] ?? 'null' ?>)">
+                <button class="msg-button">CV</button>
+            </a>
+        </div>
     </div>
-  </div>
+</div>
 
   <div id="fitness" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('fitness')">&times;</span>
-      <h2>Fitness</h2>
-      <?= renderCoach(getCoachInfo($conn, 'Fitness')) ?>
-      <div class="button-container">
-        <a href="rendez-vous.php">
-          <button class="rdv-button">Prendre rendez-vous</button>
-        </a>
-        <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
-          <button class="msg-button">Envoyer un message</button>
-        </a>
-      </div>
+        <span class="close" onclick="closeModal('fitness')">&times;</span>
+        <h2>Fitness</h2>
+        <?php 
+        $coach = getCoachInfo($conn, 'Fitness');
+        echo renderCoach($coach); 
+        ?>
+        <div class="button-container">
+            <a href="rendez-vous.php">
+                <button class="rdv-button">Prendre rendez-vous</button>
+            </a>
+            <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
+                <button class="msg-button">Envoyer un message</button>
+            </a>
+            <a href="javascript:void(0);" onclick="afficherPopupCV(<?= $coach['id'] ?? 'null' ?>)">
+                <button class="msg-button">CV</button>
+            </a>
+        </div>
     </div>
-  </div>
+</div>
 
   <div id="biking" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('biking')">&times;</span>
-      <h2>Biking</h2>
-      <?= renderCoach(getCoachInfo($conn, 'Biking')) ?>
-      <div class="button-container">
-        <a href="rendez-vous.php">
-          <button class="rdv-button">Prendre rendez-vous</button>
-        </a>
-        <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
-          <button class="msg-button">Envoyer un message</button>
-        </a>
-      </div>
+        <span class="close" onclick="closeModal('biking')">&times;</span>
+        <h2>Biking</h2>
+        <?php 
+        $coach = getCoachInfo($conn, 'Biking');
+        echo renderCoach($coach); 
+        ?>
+        <div class="button-container">
+            <a href="rendez-vous.php">
+                <button class="rdv-button">Prendre rendez-vous</button>
+            </a>
+            <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
+                <button class="msg-button">Envoyer un message</button>
+            </a>
+            <a href="javascript:void(0);" onclick="afficherPopupCV(<?= $coach['id'] ?? 'null' ?>)">
+                <button class="msg-button">CV</button>
+            </a>
+        </div>
     </div>
-  </div>
+</div>
 
   <div id="cardio" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('cardio')">&times;</span>
-      <h2>Cardio-Training</h2>
-      <?= renderCoach(getCoachInfo($conn, 'Cardio-Training')) ?>
-      <div class="button-container">
-        <a href="rendez-vous.php">
-          <button class="rdv-button">Prendre rendez-vous</button>
-        </a>
-        <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
-          <button class="msg-button">Envoyer un message</button>
-        </a>
-      </div>
+        <span class="close" onclick="closeModal('cardio')">&times;</span>
+        <h2>Cardio-training</h2>
+        <?php 
+        $coach = getCoachInfo($conn, 'Cardio-training');
+        echo renderCoach($coach); 
+        ?>
+        <div class="button-container">
+            <a href="rendez-vous.php">
+                <button class="rdv-button">Prendre rendez-vous</button>
+            </a>
+            <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
+                <button class="msg-button">Envoyer un message</button>
+            </a>
+            <a href="javascript:void(0);" onclick="afficherPopupCV(<?= $coach['id'] ?? 'null' ?>)">
+                <button class="msg-button">CV</button>
+            </a>
+        </div>
     </div>
-  </div>
+</div>
 
   <div id="cours-collectifs" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('cours-collectifs')">&times;</span>
-      <h2>Cours Collectifs</h2>
-      <?= renderCoach(getCoachInfo($conn, 'Cours Collectifs')) ?>
-      <div class="button-container">
-        <a href="rendez-vous.php">
-          <button class="rdv-button">Prendre rendez-vous</button>
-        </a>
-        <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
-          <button class="msg-button">Envoyer un message</button>
-        </a>
-      </div>
+        <span class="close" onclick="closeModal('cours-collectifs')">&times;</span>
+        <h2>Cours Collectifs</h2>
+        <?php 
+        $coach = getCoachInfo($conn, 'Cours Collectifs');
+        echo renderCoach($coach); 
+        ?>
+        <div class="button-container">
+            <a href="rendez-vous.php">
+                <button class="rdv-button">Prendre rendez-vous</button>
+            </a>
+            <a href="<?= ($_SESSION['role'] === 'client') ? 'client.php' : 'coach.php' ?>">
+                <button class="msg-button">Envoyer un message</button>
+            </a>
+            <a href="javascript:void(0);" onclick="afficherPopupCV(<?= $coach['id'] ?? 'null' ?>)">
+                <button class="msg-button">CV</button>
+            </a>
+        </div>
     </div>
-  </div>
+</div>
+
+  <div id="popupCV" class="popup" style="display:none;">
+    <div class="popup-content">
+        <span class="close" onclick="fermerPopupCV()">&times;</span>
+        <h2>CV du coach</h2>
+        <div id="cv-content">
+          <script>
+function afficherPopupCV(coachId) {
+    if (!coachId) {
+        alert("Aucun coach sélectionné");
+        return;
+    }
+    
+    fetch('get_cv_coach.php?id=' + coachId)
+        .then(response => {
+            if (!response.ok) throw new Error('Erreur réseau');
+            return response.json();
+        })
+        .then(data => {
+            const content = `
+                <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                    <img src="${data.photo}" alt="Photo" style="width:120px;height:120px;border-radius:10px;object-fit:cover;">
+                    <div>
+                        <p><strong>Nom :</strong> ${data.nom} ${data.prenom}</p>
+                        <p><strong>Spécialité :</strong> ${data.domaine_expertise}</p>
+                        <p><strong>Salle :</strong> ${data.salle}</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>Informations professionnelles</h3>
+                    <p><strong>Expérience :</strong> ${data.experience}</p>
+                    <p><strong>Diplômes :</strong> ${data.diplomes}</p>
+                    <p><strong>Description :</strong><br>${data.description}</p>
+                </div>
+            `;
+            document.getElementById('cv-content').innerHTML = content;
+            document.getElementById('popupCV').style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert("Erreur lors du chargement du CV");
+        });
+}
+
+function fermerPopupCV() {
+    document.getElementById('popupCV').style.display = 'none';
+}
+</script>
+        </div>
+    </div>
+</div>
 
   <script>
     function openModal(id) {
       document.getElementById(id).style.display = 'block';
     }
+
     function closeModal(id) {
       document.getElementById(id).style.display = 'none';
     }
+
     window.onclick = function(event) {
       const modals = document.querySelectorAll('.modal');
       modals.forEach(modal => {
