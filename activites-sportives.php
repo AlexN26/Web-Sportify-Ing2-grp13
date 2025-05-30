@@ -36,6 +36,27 @@ function renderCoach($coach) {
         <strong>Description :</strong><br><p>" . nl2br(htmlspecialchars($coach['description'])) . "</p>";
 }
 ?>
+
+<?php
+// Surligner les résultats si une recherche est passée
+if (isset($_GET['highlight'])) {
+    $highlight = $_GET['highlight'];
+    function highlightText($text) {
+        global $highlight;
+        return preg_replace("/($highlight)/i", '<span style="background-color:yellow;">$1</span>', $text);
+    }
+    ob_start();
+}
+?>
+
+<!-- Votre contenu HTML/PHP normal -->
+
+<?php
+if (isset($_GET['highlight'])) {
+    $content = ob_get_clean();
+    echo highlightText($content);
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
