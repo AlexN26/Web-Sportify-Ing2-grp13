@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 // Connexion à la base de données
 $servername = "localhost";
 $username = "root";
@@ -53,6 +52,8 @@ if ($result->num_rows > 0) {
 
 // En cas d'échec
 $_SESSION['login_error'] = "Nom d'utilisateur ou mot de passe incorrect";
+echo '<p style="color:red;">mot de passe ou nom d utilisateur incorrect </p>';
+
 header("Location: Votre_compte.php");
 exit();
 
