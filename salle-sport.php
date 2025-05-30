@@ -135,7 +135,7 @@ if (isset($_GET['highlight'])) {
 
     <div class="section">
       <h2>Questionnaire pour les nouveaux utilisateurs</h2>
-      <p>Merci de remplir ce <a href="#">formulaire d'inscription</a> avant votre première séance pour évaluer vos besoins et votre condition physique.</p>
+      <p>Merci de remplir ce <a href="formulaire.php">formulaire d'inscription</a> avant votre première séance pour évaluer vos besoins et votre condition physique.</p>
     </div>
 
     <div class="section">
