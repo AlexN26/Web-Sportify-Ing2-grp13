@@ -9,13 +9,37 @@ if ($mysqli->connect_error) {
 $username = $_SESSION['username'] ?? '';
 $role = $_SESSION['role'] ?? '';
 
-$rdvs = $mysqli->prepare("SELECT r.*, c.nom, c.prenom FROM rendez_vous r JOIN coachs c ON r.coach_id = c.id WHERE r.client_username = ?");
-$rdvs->bind_param("s", $username);
-$rdvs->execute();
-$result = $rdvs->get_result();
+if ($role === 'client') {
+    
+    $rdvs = $mysqli->prepare("SELECT r.*, c.nom, c.prenom FROM rendez_vous r JOIN coachs c ON r.coach_id = c.id WHERE r.client_username = ?");
+    $rdvs->bind_param("s", $username);
+} elseif ($role === 'coach') {
+  
+    $coach_info = $mysqli->prepare("SELECT id FROM coachs WHERE username = ?");
+    $coach_info->bind_param("s", $username);
+    $coach_info->execute();
+    $coach_result = $coach_info->get_result();
+    
+    if ($coach_result->num_rows > 0) {
+        $coach_data = $coach_result->fetch_assoc();
+        $coach_id = $coach_data['id'];
+        
+        $rdvs = $mysqli->prepare("SELECT r.*, r.client_username as client_nom FROM rendez_vous r WHERE r.coach_id = ?");
+        $rdvs->bind_param("i", $coach_id);
+    } else {
+        $rdvs = null;
+    }
+} else {
+    $rdvs = null;
+}
+
+if ($rdvs) {
+    $rdvs->execute();
+    $result = $rdvs->get_result();
+}
 
 // Annulation (uniquement pour clients)
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['annuler_id']) && $role === 'client') {
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['annuler_id']) && ($role === 'client' || $role === 'coach'))  {
     $id = intval($_POST['annuler_id']);
     $mysqli->query("DELETE FROM rendez_vous WHERE id = $id");
     header("Location: rendez-vous.php");
@@ -73,7 +97,47 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['coach_id'], $_POST['d
         <a href="Votre_compte.php">Votre compte</a>
     </nav>
     <h1>Mes rendez-vous confirmés</h1>
-
+<?php if (isset($result) && $result->num_rows > 0): ?>
+    <table>
+        <thead>
+            <tr>
+                <?php if ($role === 'client'): ?>
+                    <th>Coach</th>
+                <?php else: ?>
+                    <th>Client</th>
+                <?php endif; ?>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Lieu</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while ($rdv = $result->fetch_assoc()): ?>
+                <tr>
+                    <td>
+                        <?php if ($role === 'client'): ?>
+                            <?= htmlspecialchars($rdv['prenom'] . ' ' . $rdv['nom']) ?>
+                        <?php else: ?>
+                            <?= htmlspecialchars($rdv['client_nom']) ?>
+                        <?php endif; ?>
+                    </td>
+                    <td><?= htmlspecialchars($rdv['date_rdv']) ?></td>
+                    <td><?= htmlspecialchars($rdv['heure_rdv']) ?></td>
+                    <td><?= htmlspecialchars($rdv['lieu']) ?></td>
+                    <td>
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="annuler_id" value="<?= $rdv['id'] ?>">
+                            <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir annuler ce rendez-vous ?')">Annuler</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+<?php else: ?>
+    <p>Aucun rendez-vous confirmé pour le moment.</p>
+<?php endif; ?>
  <h2>Prendre un nouveau rendez-vous</h2>
 
 <?php if ($role !== 'client'): ?>
