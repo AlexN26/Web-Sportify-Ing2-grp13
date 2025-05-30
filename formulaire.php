@@ -29,6 +29,13 @@
         color: white;
         border: none;
         cursor: pointer;
+        width: 80px;
+        height: 50px;
+        border-radius: 10px;
+        align: center;
+    }
+    body{
+        font-size: 18px;
     }
     </style>
 </head>
@@ -95,10 +102,13 @@
             
             <div class = "ligne"> 
                 <label for="activite">Pratiquezvous deja une activité physique?</label>
+                <div class = "ligne">
                 <select id="activite" name="activite" required>
                     <option value="oui">Oui</option>
                     <option value="non">Non</option>
-            </select>
+                    
+                </select>
+                 </div>
             </div>
 
             <div class = "ligne"> 
@@ -107,6 +117,17 @@
                  <input type="number" id="frequence" name="frequence">
                 </div>
             </div>
+
+            <div class = "ligne"> 
+                <label for="meilleur_coach">quel coach vous semble le plus qualifié ?</label>
+                <div class = "ligne">
+                <select id="meilleur_coach" name="meilleur_coach" required>
+                    <option value="Brice">Brice Contentin</option>
+                    
+                </select>
+                 </div>
+            </div>
+
 
             <button type="submit">Envoyer</button>
         </form>
