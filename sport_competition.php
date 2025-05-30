@@ -25,15 +25,38 @@ function getCoachInfo($conn, $discipline) {
 
 function renderCoach($coach) {
     if (!$coach) return "<p>Aucun coach trouvé pour cette discipline.</p>";
+
+    // Récupération des horaires (à adapter si tu as une table dédiée)
+    // Pour l'instant on met un tableau fictif
+    $horaires = [
+        ["Jour" => "Lundi", "Heures" => "10h - 12h"],
+        ["Jour" => "Mercredi", "Heures" => "14h - 18h"],
+        ["Jour" => "Vendredi", "Heures" => "09h - 11h"],
+    ];
+
+    $horaires_html = "<table style='width:100%; border-collapse: collapse; margin-top: 1rem;'>
+        <tr><th style='border-bottom: 1px solid #ccc; text-align: left;'>Jour</th><th style='border-bottom: 1px solid #ccc; text-align: left;'>Horaires</th></tr>";
+    foreach ($horaires as $h) {
+        $horaires_html .= "<tr><td>{$h['Jour']}</td><td>{$h['Heures']}</td></tr>";
+    }
+    $horaires_html .= "</table>";
+
     return "
-        <img src='" . htmlspecialchars($coach['photo']) . "' alt='Photo de " . htmlspecialchars($coach['prenom']) . "' style='width:100px;border-radius:50%;'><br>
-        <strong>Nom :</strong> " . htmlspecialchars($coach['prenom']) . " " . htmlspecialchars($coach['nom']) . "<br>
-        <strong>Âge :</strong> " . htmlspecialchars($coach['age']) . " ans<br>
-        <strong>Diplômes :</strong> " . htmlspecialchars($coach['diplomes']) . "<br>
-        <strong>Téléphone :</strong> " . htmlspecialchars($coach['telephone']) . "<br>
-        <strong>Email :</strong> " . htmlspecialchars($coach['email']) . "<br>
-        <strong>Expérience :</strong> " . htmlspecialchars($coach['experience']) . "<br>
-        <strong>Description :</strong><br><p>" . nl2br(htmlspecialchars($coach['description'])) . "</p>";
+    <div style='display: flex; align-items: flex-start; gap: 20px;'>
+        <img src='" . htmlspecialchars($coach['photo']) . "' alt='Photo de " . htmlspecialchars($coach['prenom']) . "' style='width:120px;height:120px;border-radius:10px;object-fit:cover;'>
+        <div>
+            <p><strong>Prénom :</strong> " . htmlspecialchars($coach['prenom']) . "</p>
+            <p><strong>Nom :</strong> " . htmlspecialchars($coach['nom']) . "</p>
+            <p><strong>Salle :</strong> " . htmlspecialchars($coach['salle']) . "</p>
+            <p><strong>Téléphone :</strong> " . htmlspecialchars($coach['telephone']) . "</p>
+            <p><strong>Email :</strong> " . htmlspecialchars($coach['email']) . "</p>
+            <p><strong>Spécialité :</strong> " . htmlspecialchars($coach['domaine_expertise']) . "</p>
+        </div>
+    </div>
+    <div style='margin-top: 1rem;'>
+        <h3>Disponibilités</h3>
+        $horaires_html
+    </div>";
 }
 ?>
 
