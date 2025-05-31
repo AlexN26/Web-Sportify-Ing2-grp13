@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 $mysqli = new mysqli("localhost", "root", "", "sportify_db");
@@ -177,33 +178,159 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['coach_id'], $_POST['d
     </form>
 
     <?php if (isset($_POST['coach_id'])): ?>
-        <form method="POST">
-            <input type="hidden" name="coach_id" value="<?= intval($_POST['coach_id']) ?>">
-            <label>Choisir un créneau :
-                <select name="dispo_id" required>
-                    <?php
-                    $coach_id = intval($_POST['coach_id']);
-                    $dispos = $mysqli->query("
-                        SELECT d.id, d.jour, d.heure_debut, d.heure_fin 
-                        FROM disponibilite d 
-                        WHERE d.coach_id = $coach_id 
-                        AND d.disponible = 1 
-                        AND NOT EXISTS (
-                            SELECT 1 FROM rendez_vous r 
-                            WHERE r.coach_id = d.coach_id 
-                            AND r.date_rdv = CURDATE() 
-                            AND r.heure_rdv = d.heure_debut
-                        )
-                    ");
-                    while ($d = $dispos->fetch_assoc()) {
-                        echo "<option value='{$d['id']}'>".$d['jour']." de ".$d['heure_debut']." à ".$d['heure_fin']."</option>";
-                    }
-                    ?>
-                </select>
-            </label>
-            <button type="submit">Valider le rendez-vous</button>
+    <?php
+    $coach_id = intval($_POST['coach_id']);
+    
+    // Récupérer les disponibilités du coach
+    $dispos = $mysqli->query("
+        SELECT d.id, d.jour, d.heure_debut, d.heure_fin 
+        FROM disponibilite d 
+        WHERE d.coach_id = $coach_id 
+        AND d.disponible = 1 
+        AND NOT EXISTS (
+            SELECT 1 FROM rendez_vous r 
+            WHERE r.coach_id = d.coach_id 
+            AND r.date_rdv = CURDATE() 
+            AND r.heure_rdv = d.heure_debut
+        )
+    ");
+    
+    // Organiser les disponibilités par jour (en minuscules pour uniformiser)
+    $disponibilites_par_jour = array_fill_keys(
+        ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'], 
+        []
+    );
+    
+    while ($d = $dispos->fetch_assoc()) {
+        $jour = strtolower($d['jour']);
+        if (array_key_exists($jour, $disponibilites_par_jour)) {
+            $disponibilites_par_jour[$jour][] = $d;
+        }
+    }
+    
+    // Jours de la semaine avec première lettre en majuscule
+    $jours_semaine = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+    ?>
+    
+    <style>
+        .calendar-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+        }
+        .calendar-header, .calendar-body {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .calendar-header {
+            background: #f0f0f0;
+            font-weight: bold;
+            text-align: center;
+        }
+        .calendar-day-header, .calendar-day-slots {
+            padding: 10px;
+            border: 1px solid #ddd;
+            min-height: 40px;
+        }
+        .calendar-day-slots {
+            min-height: 150px;
+        }
+        .time-slot {
+            margin: 5px 0;
+            padding: 8px;
+            background: #e9f7fe;
+            border: 1px solid #b3e0ff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .time-slot:hover {
+            background: #d0ebff;
+        }
+        .time-slot.selected {
+            background: #4CAF50;
+            color: white;
+            border-color: #3e8e41;
+        }
+        .no-availability {
+            color: #999;
+            text-align: center;
+            padding: 10px;
+        }
+        #confirm-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #confirm-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+    
+    <div class="calendar-container">
+        <h2>Choisissez un créneau horaire</h2>
+        
+        <form method="POST" id="booking-form">
+            <input type="hidden" name="coach_id" value="<?= $coach_id ?>">
+            <input type="hidden" name="dispo_id" id="selected-slot" value="">
+            
+            <div class="calendar-header">
+                <?php foreach ($jours_semaine as $jour): ?>
+                    <div class="calendar-day-header"><?= $jour ?></div>
+                <?php endforeach; ?>
+            </div>
+            
+            <div class="calendar-body">
+                <?php foreach ($jours_semaine as $jour): ?>
+                    <div class="calendar-day-slots">
+                        <?php 
+                        $dispos_jour = $disponibilites_par_jour[strtolower($jour)];
+                        if (!empty($dispos_jour)): 
+                        ?>
+                            <?php foreach ($dispos_jour as $dispo): ?>
+                                <div class="time-slot" 
+                                     data-dispo-id="<?= $dispo['id'] ?>"
+                                     onclick="selectTimeSlot(this, <?= $dispo['id'] ?>)">
+                                    <?= substr($dispo['heure_debut'], 0, 5) ?> - <?= substr($dispo['heure_fin'], 0, 5) ?>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="no-availability">Aucune disponibilité</div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            
+            <button type="submit" id="confirm-btn" disabled>Confirmer le rendez-vous</button>
         </form>
-    <?php endif; ?>
+    </div>
+    
+    <script>
+        function selectTimeSlot(element, dispoId) {
+            // Désélectionner tous les créneaux
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            
+            // Sélectionner le créneau cliqué
+            element.classList.add('selected');
+            
+            // Mettre à jour l'ID de disponibilité sélectionné
+            document.getElementById('selected-slot').value = dispoId;
+            
+            // Activer le bouton de confirmation
+            document.getElementById('confirm-btn').disabled = false;
+        }
+    </script>
+<?php endif; ?>
 <?php endif; ?>
 
 <h2>Payer</h2>
