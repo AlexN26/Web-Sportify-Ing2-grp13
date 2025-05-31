@@ -127,8 +127,37 @@
                 </select>
                  </div>
             </div>
+              <div class="ligne">
+                    <label for="horaire_prefere">Horaire préféré pour les séances :</label>
+                    <select id="horaire_prefere" name="horaire_prefere">
+                        <option value="">-- Indifférent --</option>
+                        <option value="matin">Matin (6h-10h)</option>
+                        <option value="midi">Midi (11h-14h)</option>
+                        <option value="aprem">Après-midi (14h-18h)</option>
+                        <option value="soir">Soir (18h-22h)</option>
+                    </select>
+                </div>
 
 
+                 <div class="ligne">
+                    <label for="lieu_prefere">Lieu préféré pour les séances :</label>
+                    <select id="lieu_prefere" name="lieu_prefere">
+                        <option value="">-- Indifférent --</option>
+                        <option value="domicile">À domicile</option>
+                        <option value="salle">En salle de sport</option>
+                        <option value="exterieur">En extérieur</option>
+                        <option value="online">En ligne</option>
+                    </select>
+                </div>
+                
+
+                <div class="ligne">
+                    <label for="commentaires">Commentaires ou demandes particulières :</label>
+                    <textarea id="commentaires" name="commentaires" rows="4"></textarea>
+                </div>
+            </div>
+
+            
             <button type="submit">Envoyer</button>
         </form>
     </div>
