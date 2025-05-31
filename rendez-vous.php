@@ -83,10 +83,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['coach_id'], $_POST['d
     <meta charset="UTF-8">
     <title>Mes rendez-vous</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .paiement-btn {
+            background-color: blue;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            text-decoration: none;
+           
+        }
+        .paiement-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
     <header>
         <img src="Images/Logo-sportify.png" alt="Sportify Logo" height="150">
+
     </header>
     
     <nav>
@@ -188,6 +206,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['coach_id'], $_POST['d
     <?php endif; ?>
 <?php endif; ?>
 
+<h2>Payer</h2>
+<?php if ($role !== 'client'): ?>
+    <p style="color:red;">Seuls les clients peuvent payer. Veuillez vous connecter avec un compte client.</p>
+<?php else: ?>
+     <a href="paiement.php" class="paiement-btn">Procéder au paiement</a>
+<?php endif; ?>
 
     <footer>
         <div class="contact-info">
