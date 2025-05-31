@@ -23,21 +23,37 @@ function getCoachInfo($conn, $discipline) {
     return $result->fetch_assoc();
 }
 
-function renderCoach($coach) {
+function getCoachDisponibilites($conn, $coach_id) {
+    $disponibilites = [];
+    $stmt = $conn->prepare("SELECT * FROM disponibilite WHERE coach_id = ? AND disponible = 1 ORDER BY jour, heure_debut");
+    $stmt->bind_param("i", $coach_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    while ($row = $result->fetch_assoc()) {
+        $disponibilites[] = [
+            "Jour" => ucfirst($row['jour']),
+            "Heures" => substr($row['heure_debut'], 0, 5) . " - " . substr($row['heure_fin'], 0, 5)
+        ];
+    }
+    return $disponibilites;
+}
+
+function renderCoach($conn, $coach) {
     if (!$coach) return "<p>Aucun coach trouvé pour cette discipline.</p>";
 
-    // Récupération des horaires (à adapter si tu as une table dédiée)
-    // Pour l'instant on met un tableau fictif
-    $horaires = [
-        ["Jour" => "Lundi", "Heures" => "10h - 12h"],
-        ["Jour" => "Mercredi", "Heures" => "14h - 18h"],
-        ["Jour" => "Vendredi", "Heures" => "09h - 11h"],
-    ];
+    // Récupération des horaires depuis la base de données
+    $horaires = getCoachDisponibilites($conn, $coach['id']);
 
     $horaires_html = "<table style='width:100%; border-collapse: collapse; margin-top: 1rem;'>
         <tr><th style='border-bottom: 1px solid #ccc; text-align: left;'>Jour</th><th style='border-bottom: 1px solid #ccc; text-align: left;'>Horaires</th></tr>";
-    foreach ($horaires as $h) {
-        $horaires_html .= "<tr><td>{$h['Jour']}</td><td>{$h['Heures']}</td></tr>";
+    
+    if (empty($horaires)) {
+        $horaires_html .= "<tr><td colspan='2'>Aucune disponibilité enregistrée</td></tr>";
+    } else {
+        foreach ($horaires as $h) {
+            $horaires_html .= "<tr><td>{$h['Jour']}</td><td>{$h['Heures']}</td></tr>";
+        }
     }
     $horaires_html .= "</table>";
 
@@ -249,7 +265,7 @@ if (isset($_GET['highlight'])) {
         <h2>Musculation</h2>
         <?php 
         $coach = getCoachInfo($conn, 'Musculation');
-        echo renderCoach($coach); 
+        echo renderCoach($conn, $coach); 
         ?>
         <div class="button-container">
             <a href="rendez-vous.php">
@@ -271,7 +287,7 @@ if (isset($_GET['highlight'])) {
         <h2>Fitness</h2>
         <?php 
         $coach = getCoachInfo($conn, 'Fitness');
-        echo renderCoach($coach); 
+        echo renderCoach($conn, $coach); 
         ?>
         <div class="button-container">
             <a href="rendez-vous.php">
@@ -293,7 +309,7 @@ if (isset($_GET['highlight'])) {
         <h2>Biking</h2>
         <?php 
         $coach = getCoachInfo($conn, 'Biking');
-        echo renderCoach($coach); 
+        echo renderCoach($conn, $coach); 
         ?>
         <div class="button-container">
             <a href="rendez-vous.php">
@@ -315,7 +331,7 @@ if (isset($_GET['highlight'])) {
         <h2>Cardio-training</h2>
         <?php 
         $coach = getCoachInfo($conn, 'Cardio-training');
-        echo renderCoach($coach); 
+        echo renderCoach($conn, $coach); 
         ?>
         <div class="button-container">
             <a href="rendez-vous.php">
@@ -337,7 +353,7 @@ if (isset($_GET['highlight'])) {
         <h2>Cours Collectifs</h2>
         <?php 
         $coach = getCoachInfo($conn, 'Cours Collectifs');
-        echo renderCoach($coach); 
+        echo renderCoach($conn, $coach); 
         ?>
         <div class="button-container">
             <a href="rendez-vous.php">
@@ -371,8 +387,8 @@ function afficherPopupCV(coachId) {
             return response.json();
         })
         .then(data => {
-            const content = `
-                <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+            const content = 
+                `<div style="display: flex; gap: 20px; margin-bottom: 20px;">
                     <img src="${data.photo}" alt="Photo" style="width:120px;height:120px;border-radius:10px;object-fit:cover;">
                     <div>
                         <p><strong>Nom :</strong> ${data.nom} ${data.prenom}</p>
@@ -385,8 +401,7 @@ function afficherPopupCV(coachId) {
                     <p><strong>Expérience :</strong> ${data.experience}</p>
                     <p><strong>Diplômes :</strong> ${data.diplomes}</p>
                     <p><strong>Description :</strong><br>${data.description}</p>
-                </div>
-            `;
+                </div>`;
             document.getElementById('cv-content').innerHTML = content;
             document.getElementById('popupCV').style.display = 'block';
         })
