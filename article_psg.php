@@ -33,9 +33,9 @@ if (!isset($_SESSION['username'])) {
         <h2>Le PSG remporte la Ligue des Champions</h2>
         <img src="Images/Semaine-psg.jpeg" alt="Victoire du PSG" style="width:100%; max-height:400px; object-fit:cover; border-radius: 8px;">
         <p style="margin-top:1rem; line-height:1.6;">
-            Dans une finale historique au Stade de Wembley, le Paris Saint-Germain a remporté la Ligue des Champions
-            pour la première fois de son histoire, en s'imposant 2-1 face au Real Madrid. Mbappé et Vitinha ont inscrit
-            les buts parisiens, tandis que Vinícius Junior avait ouvert le score pour les Madrilènes.
+            Dans une finale rocambolesque au Stade de Wembley, le Paris Saint-Germain a « remporté » la Ligue des Champions pour la première fois de son histoire, s'imposant 2-1 face à l'Inter Milan dans un match où l'arbitrage a clairement choisi son camp. Entre un penalty sifflé pour une faute invisible sur Mbappé, un but de l'Inter annulé pour un hors-jeu sorti tout droit d’un épisode de "X-Files", et une expulsion sévère d’un défenseur milanais pour avoir osé respirer trop fort près de Neymar, le PSG a enchaîné les décisions litigieuses avec une élégance de pickpocket dans le métro.
+            Mbappé a transformé le penalty cadeau, tandis que Vitinha a profité d’un dégagement raté après une touche rapidement (et irrégulièrement) jouée. L'Inter avait pourtant ouvert le score sur un contre parfaitement mené, mais ce n’était visiblement pas prévu dans le script.
+            Bref, une victoire digne d’un roublard de niveau 20 qui aurait mater sauvagement son adversaire avec des jets de dés pipés et une cape d'invisibilité administrative en bonus.
             <br><br>
             Cette victoire marque une étape importante pour le club parisien, concrétisant enfin des années
             d'investissement et d'efforts. Le coach Luis Enrique a salué la solidarité et la discipline tactique de son
