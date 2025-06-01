@@ -134,9 +134,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['coach_id'], $_POST['d
     
     <nav>
         <a href="Accueil.php">Accueil</a>
-        <a href="Tout_parcourir.php" class="active">Tout parcourir</a>
+        <a href="Tout_parcourir.php">Tout parcourir</a>
         <a href="recherche.php">Recherche</a>
-        <a href="rendez-vous.php">Rendez-vous</a>
+        <a href="rendez-vous.php" class="active">Rendez-vous</a>
         <a href="Votre_compte.php">Votre compte</a>
     </nav>
     <h1>Mes rendez-vous confirmés</h1>

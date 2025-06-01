@@ -21,8 +21,8 @@ if (!isset($_SESSION['username'])) {
     </header>
     
     <nav>
-        <a href="Accueil.php">Accueil</a>
-        <a href="Tout_parcourir.php" class="active">Tout parcourir</a>
+        <a href="Accueil.php" class="active">Accueil</a>
+        <a href="Tout_parcourir.php" >Tout parcourir</a>
         <a href="recherche.php">Recherche</a>
         <a href="rendez-vous.php">Rendez-vous</a>
         <a href="Votre_compte.php">Votre compte</a>
