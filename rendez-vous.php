@@ -213,67 +213,143 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['coach_id'], $_POST['d
     ?>
     
     <style>
-        .calendar-container {
-            max-width: 1000px;
-            margin: 20px auto;
-            font-family: Arial, sans-serif;
+    body {
+        font-family: "Segoe UI", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+    }
+
+    header {
+        background-color: #004aad;
+        padding: 20px;
+        text-align: center;
+    }
+
+    nav {
+        background-color: #005eff;
+        padding: 15px;
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+    }
+
+    nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+
+    nav a:hover {
+        text-decoration: underline;
+        transform: scale(1.1);
+    }
+
+    h1, h2 {
+        text-align: center;
+        color: #004aad;
+        margin-top: 30px;
+    }
+
+    table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #005eff;
+        color: white;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    button[type="submit"], #confirm-btn {
+        background-color: #005eff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    button[type="submit"]:hover, #confirm-btn:hover {
+        background-color: #003d99;
+    }
+
+    .paiement-btn {
+        display: block;
+        margin: 20px auto;
+        background-color: #009688;
+        text-align: center;
+    }
+
+    .paiement-btn:hover {
+        background-color: #00796B;
+    }
+
+    .calendar-container {
+        background-color: white;
+        padding: 20px;
+        margin: 40px auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        max-width: 1000px;
+    }
+
+    .no-availability {
+        font-style: italic;
+        color: gray;
+    }
+
+    footer {
+        margin-top: 40px;
+        padding: 20px;
+        background-color: #004aad;
+        color: white;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .contact-info {
+        max-width: 300px;
+    }
+
+    .map iframe {
+        width: 300px;
+        height: 200px;
+        border: none;
+    }
+
+    @media (max-width: 768px) {
+        table, .calendar-header, .calendar-body {
+            font-size: 12px;
         }
-        .calendar-header, .calendar-body {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-        }
-        .calendar-header {
-            background: #f0f0f0;
-            font-weight: bold;
-            text-align: center;
-        }
-        .calendar-day-header, .calendar-day-slots {
-            padding: 10px;
-            border: 1px solid #ddd;
-            min-height: 40px;
-        }
+
         .calendar-day-slots {
-            min-height: 150px;
+            min-height: 100px;
         }
-        .time-slot {
-            margin: 5px 0;
-            padding: 8px;
-            background: #e9f7fe;
-            border: 1px solid #b3e0ff;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
+
+        nav {
+            flex-direction: column;
+            align-items: center;
         }
-        .time-slot:hover {
-            background: #d0ebff;
-        }
-        .time-slot.selected {
-            background: #4CAF50;
-            color: white;
-            border-color: #3e8e41;
-        }
-        .no-availability {
-            color: #999;
-            text-align: center;
-            padding: 10px;
-        }
-        #confirm-btn {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        #confirm-btn:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-        }
-    </style>
+    }
+</style>
+
     
     <div class="calendar-container">
         <h2>Choisissez un créneau horaire</h2>
