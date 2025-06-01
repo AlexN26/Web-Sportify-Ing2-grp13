@@ -102,7 +102,7 @@
     }
 
 
-    /* === Accueil / Bienvenue === */
+   
     .welcome {
         text-align: center;
         padding: 2rem;
@@ -110,7 +110,7 @@
     }
 
 
-    /* === Section d'événements (si utilisée ailleurs) === */
+
     .event-section {
         padding: 2rem;
         margin: 0 auto;
@@ -143,7 +143,6 @@
     }
 
 
-    /* === Pied de page === */
     footer {
         background-color: #1c66af;
         color: white;
@@ -172,14 +171,13 @@
         max-width: 500px;
     }
 
-    /* Si la map est utilisée seule */
     .map {
         height: 200px;
         margin: 1rem auto;
         max-width: 800px;
     }
 
-    /* === Responsive === */
+
 
 
     .categories-container,
