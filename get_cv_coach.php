@@ -37,4 +37,5 @@ if ($result->num_rows === 0) {
 
 $coach = $result->fetch_assoc();
 echo json_encode($coach);
+
 ?>

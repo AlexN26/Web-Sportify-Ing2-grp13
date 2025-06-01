@@ -14,15 +14,22 @@
             margin-top: 40px;
             padding: 20px;
         }
+        
         form {
         width: 90%;
         max-width: 500px;
         margin: 30px auto;
       }
+
+
+
       .ligne{
         margin-top: 10px;
         align: center;
       }
+
+
+
       button {
         margin-top: 20px;
         background-color: blue;
@@ -32,11 +39,170 @@
         width: 80px;
         height: 50px;
         border-radius: 10px;
-        align: center;
+        margin-left: 680px;
     }
+
+
+
     body{
         font-size: 18px;
     }
+
+
+    .carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 1rem auto;
+    overflow: hidden;
+    }
+
+
+    .carousel {
+        display: flex;
+        transition: transform 0.5s ease;
+        height: 400px;
+    }
+
+
+    .carousel img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+
+
+    .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0,0,0,0.5);
+        color: white;
+        border: none;
+        padding: 1rem;
+        cursor: pointer;
+        font-size: 1.5rem;
+        z-index: 10;
+    }
+
+
+    #prevBtn {
+        left: 10px;
+    }
+
+
+    #nextBtn {
+        right: 10px;
+    }
+
+
+    .carousel-btn:hover {
+        background-color: rgba(0,0,0,0.8);
+    }
+
+
+    /* === Accueil / Bienvenue === */
+    .welcome {
+        text-align: center;
+        padding: 2rem;
+        background-color: #f8f9fa;
+    }
+
+
+    /* === Section d'événements (si utilisée ailleurs) === */
+    .event-section {
+        padding: 2rem;
+        margin: 0 auto;
+        max-width: 1000px;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+
+    .event-card {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+        text-align: center;
+    }
+
+
+    .event-card:hover {
+        transform: scale(1.02);
+    }
+
+
+    .event-card h2 {
+        color: #1c66af;
+        margin-bottom: 1rem;
+    }
+
+
+    /* === Pied de page === */
+    footer {
+        background-color: #1c66af;
+        color: white;
+        padding: 2rem 4rem;
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 2rem;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+
+    footer .contact-info {
+        max-width: 300px;
+        flex: 1;
+        min-width: 250px;
+    }
+
+    footer .map {
+        height: 200px;
+        flex: 1;
+        min-width: 300px;
+        max-width: 500px;
+    }
+
+    /* Si la map est utilisée seule */
+    .map {
+        height: 200px;
+        margin: 1rem auto;
+        max-width: 800px;
+    }
+
+    /* === Responsive === */
+
+
+    .categories-container,
+    .event-section {
+        padding: 1rem;
+    }
+
+    .category-card,
+    .event-card {
+        padding: 1rem;
+    }
+
+    footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    footer .map {
+        width: 100%;
+        max-width: 100%;
+    }
+
     </style>
 </head>
 <body>
@@ -157,7 +323,13 @@
                 </div>
             </div>
             
+
+
+
+            
+
             <button type="submit">Envoyer</button>
+            
         </form>
     </div>
 <footer>
