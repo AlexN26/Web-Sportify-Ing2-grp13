@@ -33,9 +33,12 @@ if (!isset($_SESSION['username'])) {
         <h2>Le PSG remporte la Ligue des Champions</h2>
         <img src="Images/Semaine-psg.jpeg" alt="Victoire du PSG" style="width:100%; max-height:400px; object-fit:cover; border-radius: 8px;">
         <p style="margin-top:1rem; line-height:1.6;">
-            Dans une finale rocambolesque au Stade de Wembley, le Paris Saint-Germain a « remporté » la Ligue des Champions pour la première fois de son histoire, s'imposant 2-1 face à l'Inter Milan dans un match où l'arbitrage a clairement choisi son camp. Entre un penalty sifflé pour une faute invisible sur Mbappé, un but de l'Inter annulé pour un hors-jeu sorti tout droit d’un épisode de "X-Files", et une expulsion sévère d’un défenseur milanais pour avoir osé respirer trop fort près de Neymar, le PSG a enchaîné les décisions litigieuses avec une élégance de pickpocket dans le métro.
-            Mbappé a transformé le penalty cadeau, tandis que Vitinha a profité d’un dégagement raté après une touche rapidement (et irrégulièrement) jouée. L'Inter avait pourtant ouvert le score sur un contre parfaitement mené, mais ce n’était visiblement pas prévu dans le script.
-            Bref, une victoire digne d’un roublard de niveau 20 qui aurait mater sauvagement son adversaire avec des jets de dés pipés et une cape d'invisibilité administrative en bonus.
+          
+Le 31 mai 2025, le Paris Saint-Germain a remporté sa première Ligue des champions en écrasant l’Inter Milan 5-0 à l’Allianz Arena de Munich. Cette victoire historique, la plus large jamais enregistrée en finale de C1, a été marquée par une performance collective exceptionnelle et une domination totale du PSG.
+<br><br>
+Dès la 12e minute, Achraf Hakimi a ouvert le score. Le jeune Désiré Doué, 19 ans, a inscrit un doublé (20e et 63e minutes), devenant le plus jeune joueur à marquer deux buts en finale de Ligue des champions. Khvicha Kvaratskhelia (73e) et Senny Mayulu (86e) ont complété le festival offensif parisien. L’équipe dirigée par Luis Enrique a ainsi remporté un triplé historique, après avoir déjà conquis la Ligue 1 et la Coupe de France cette saison.
+<br><br>
+Cette victoire a été obtenue sans les anciennes stars Neymar, Messi et Mbappé, soulignant la réussite d’un collectif jeune et discipliné. Luis Enrique, qui avait déjà remporté la Ligue des champions avec le FC Barcelone en 2015, devient le deuxième entraîneur à réaliser un triplé avec deux clubs différents, après Pep Guardiola
             <br><br>
             Cette victoire marque une étape importante pour le club parisien, concrétisant enfin des années
             d'investissement et d'efforts. Le coach Luis Enrique a salué la solidarité et la discipline tactique de son

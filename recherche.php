@@ -45,30 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["query"])) {
     <title>Recherche Sportify</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f4f4f4;
-        }
+        
 
-        header, nav, footer {
-            background-color: #004aad;
-            color: white;
-            padding: 15px;
-            text-align: center;
-        }
-
-        nav a {
-            color: white;
-            margin: 0 10px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        nav a.active {
-            border-bottom: 2px solid #fff;
-        }
 
         .container {
             padding: 30px;
@@ -95,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["query"])) {
 
         .search-form button {
             padding: 10px 20px;
-            background-color: #004aad;
+            background-color: #1c66af;
             border: none;
             color: white;
             font-size: 16px;
@@ -104,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["query"])) {
         }
 
         .search-form button:hover {
-            background-color: #00337f;
+            background-color: #1c66af;
         }
 
         .result-section {
@@ -114,32 +92,21 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["query"])) {
         .result-item {
             padding: 15px;
             background: #f9f9f9;
-            border-left: 5px solid #004aad;
+            border-left: 5px solid #1c66af;
             border-radius: 5px;
             margin: 10px 0;
         }
 
         .result-item h4 {
             margin: 0;
-            color: #004aad;
+            color: #1c66af;
         }
 
         .result-item p {
             margin: 5px 0;
         }
 
-        footer {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-top: 50px;
-            padding: 30px 15px;
-        }
-
-        .contact-info, .map {
-            width: 45%;
-            min-width: 300px;
-        }
+        
 
         iframe {
             width: 100%;

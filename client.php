@@ -86,44 +86,9 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
         padding: 0;
     }
 
-    body {
-        font-family: 'Segoe UI', sans-serif;
-        background-color: #f8f9fa;
-        color: #333;
-        line-height: 1.6;
-    }
+    
 
-    header {
-        background-color: #ffffff;
-        padding: 20px;
-        text-align: center;
-        border-bottom: 2px solid #1c66af;
-    }
-
-    header img {
-        max-height: 100px;
-    }
-
-    nav {
-        background-color: #1c66af;
-        padding: 15px;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-
-    nav a {
-        color: #fff;
-        text-decoration: none;
-        font-weight: bold;
-        transition: color 0.3s;
-    }
-
-    nav a:hover {
-        color: #ffd700;
-    }
-
+    
     .container {
         max-width: 1200px;
         margin: 40px auto;
@@ -210,13 +175,6 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
         border-top: 1px solid #ccc;
     }
 
-    footer {
-        background: #1c66af;
-        color: white;
-        padding: 30px;
-        text-align: center;
-        margin-top: 40px;
-    }
 
     .contact-info h3 {
         margin-bottom: 10px;

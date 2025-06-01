@@ -71,23 +71,7 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Espace Coach - Messagerie</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header img {
-            height: 150px;
-        }
-        nav {
-            padding: 10px;
-            background: #f0f0f0;
-        }
-        nav a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #333;
-        }
+        
         .container {
             max-width: 1200px;
             margin: 20px auto;
@@ -143,13 +127,7 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
             border-radius: 4px;
             cursor: pointer;
         }
-        footer {
-            background: #1c66af;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            margin-top: 20px;
-        }
+        
     </style>
 </head>
 <body>
