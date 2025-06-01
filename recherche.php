@@ -10,7 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["query"])) {
     $query = $mysqli->real_escape_string($_GET["query"]);
     $search_term = "%" . $query . "%";
 
-    // 1. Recherche dans les coachs
     $sql_coachs = "SELECT * FROM coachs WHERE 
                   nom LIKE ? OR 
                   prenom LIKE ? OR 
@@ -22,7 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["query"])) {
     $stmt->execute();
     $coachs_results = $stmt->get_result();
 
-    // 2. Recherche dans le contenu des pages (simulé)
     $pages_content = [
         'Tout_parcourir.php' => file_get_contents('Tout_parcourir.php'),
         'activites-sportives.php' => file_get_contents('activites-sportives.php'),
@@ -37,8 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["query"])) {
         }
     }
 
-    // 3. Recherche dans d'autres tables si nécessaire (salles, compétitions etc.)
-    // ... (à implémenter selon votre structure de base de données)
 }
 ?>
 

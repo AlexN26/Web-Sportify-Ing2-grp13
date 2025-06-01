@@ -1,14 +1,12 @@
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
-    // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
     header("Location: Votre_compte.php");
     exit();
 }
 ?>
 
 <?php
-// Surligner les résultats si une recherche est passée
 if (isset($_GET['highlight'])) {
     $highlight = $_GET['highlight'];
     function highlightText($text) {
@@ -19,7 +17,6 @@ if (isset($_GET['highlight'])) {
 }
 ?>
 
-<!-- Votre contenu HTML/PHP normal -->
 
 <?php
 if (isset($_GET['highlight'])) {

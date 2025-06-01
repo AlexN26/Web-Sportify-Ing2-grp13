@@ -1,23 +1,20 @@
 <?php
 session_start();
 
-// Sécurité : accès réservé aux coachs
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'coach') {
     header("Location: Votre_compte.php");
     exit();
 }
 
-// Connexion PDO
 $pdo = new PDO('mysql:host=localhost;dbname=sportify_db;charset=utf8', 'root', '', [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 ]);
 
-$coach_username = $_SESSION['username']; // username du coach connecté
+$coach_username = $_SESSION['username']; 
 
 $error = '';
 $success = '';
 
-// Gestion de l'envoi de message
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sender_username = $coach_username;
     $receiver_username = trim($_POST['receiver_username'] ?? '');
@@ -30,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!preg_match('/^[a-zA-Z0-9_]+$/', $receiver_username)) {
         $error = "Nom d'utilisateur invalide. Seuls les lettres, chiffres et underscores sont autorisés.";
     } else {
-        // Vérifier que le destinataire existe (optionnel mais recommandé)
         $stmt = $pdo->prepare("SELECT username FROM users WHERE username = ?");
         $stmt->execute([$receiver_username]);
         $user_exists = $stmt->fetch();
@@ -56,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Lire un message en détail
 $message_detail = null;
 if (isset($_GET['msg_id'])) {
     $msg_id = (int) $_GET['msg_id'];
@@ -65,7 +60,6 @@ if (isset($_GET['msg_id'])) {
     $message_detail = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-// Récupérer tous les messages
 $stmt = $pdo->prepare("SELECT * FROM messages WHERE receiver_username = ? OR sender_username = ? ORDER BY timestamp DESC");
 $stmt->execute([$coach_username, $coach_username]);
 $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);

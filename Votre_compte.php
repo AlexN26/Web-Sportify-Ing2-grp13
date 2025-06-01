@@ -12,7 +12,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
             header("Location: admin.php");
             break;
         default:
-            // Si le rôle est inconnu, déconnexion par sécurité
             session_destroy();
             header("Location: register.php?error=session_error");
     }
@@ -174,16 +173,13 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
     </nav>
     
     <main>
-        <!-- Formulaire de connexion -->
         <div id="login-form" class="login-container">
             <h2>Connexion à votre compte</h2>
             
-            <!-- Bandeau d'erreur -->
             <div id="error-banner" class="error-banner">
                 <strong>Erreur :</strong> <span id="error-message">Nom d'utilisateur ou mot de passe incorrect</span>
             </div>
-            
-            <!-- Bandeau de succès -->
+
             <div id="success-banner" class="success-banner">
                 <strong>Succès :</strong> <span id="success-message">Connexion réussie, redirection en cours...</span>
             </div>
@@ -210,22 +206,16 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
             </div>
         </div>
         
-        <!-- Interface Client (masquée par défaut) -->
         <div id="client-interface" class="hidden">
             <h2>Espace Client</h2>
-            <!-- Contenu spécifique au client -->
         </div>
         
-        <!-- Interface Coach (masquée par défaut) -->
         <div id="coach-interface" class="hidden">
             <h2>Espace Coach</h2>
-            <!-- Contenu spécifique au coach -->
         </div>
         
-        <!-- Interface Admin (masquée par défaut) -->
         <div id="admin-interface" class="hidden">
             <h2>Espace Administrateur</h2>
-            <!-- Contenu spécifique à l'admin -->
         </div>
     </main>
     
@@ -244,7 +234,6 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Vérifier s'il y a des paramètres d'erreur dans l'URL
             const urlParams = new URLSearchParams(window.location.search);
             const errorBanner = document.getElementById('error-banner');
             const errorMessage = document.getElementById('error-message');
@@ -274,13 +263,11 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
                 errorBanner.style.display = 'block';
             }
             
-            // Gestion du formulaire
             const loginForm = document.getElementById('loginForm');
             const loginBtn = document.getElementById('loginBtn');
             const loading = document.getElementById('loading');
             
             loginForm.addEventListener('submit', function(e) {
-                // Validation côté client
                 const username = document.getElementById('username').value.trim();
                 const password = document.getElementById('password').value;
                 
@@ -301,8 +288,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
                     showError('Le mot de passe doit contenir au moins 6 caractères');
                     return;
                 }
-                
-                // Afficher le loading
+
                 loginBtn.disabled = true;
                 loginBtn.style.display = 'none';
                 loading.style.display = 'block';
@@ -319,8 +305,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
                 errorBanner.style.display = 'none';
                 document.getElementById('success-banner').style.display = 'none';
             }
-            
-            // Masquer les messages d'erreur quand l'utilisateur commence à taper
+
             document.getElementById('username').addEventListener('input', hideMessages);
             document.getElementById('password').addEventListener('input', hideMessages);
         });

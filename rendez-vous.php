@@ -39,7 +39,6 @@ if ($rdvs) {
     $result = $rdvs->get_result();
 }
 
-// Annulation (uniquement pour clients)
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['annuler_id']) && ($role === 'client' || $role === 'coach'))  {
     $id = intval($_POST['annuler_id']);
     $mysqli->query("DELETE FROM rendez_vous WHERE id = $id");
@@ -47,7 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['annuler_id']) && ($ro
     exit();
 }
 
-// Prise de rendez-vous (clients uniquement)
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['coach_id'], $_POST['dispo_id']) && $role === 'client') {
     $coach_id = intval($_POST['coach_id']);
     $dispo_id = intval($_POST['dispo_id']);
@@ -206,7 +204,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['coach_id'], $_POST['d
     <?php
     $coach_id = intval($_POST['coach_id']);
     
-    // Récupérer les disponibilités du coach
     $dispos = $mysqli->query("
         SELECT d.id, d.jour, d.heure_debut, d.heure_fin 
         FROM disponibilite d 
@@ -220,7 +217,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['coach_id'], $_POST['d
         )
     ");
     
-    // Organiser les disponibilités par jour (en minuscules pour uniformiser)
     $disponibilites_par_jour = array_fill_keys(
         ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'], 
         []
@@ -233,7 +229,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['coach_id'], $_POST['d
         }
     }
     
-    // Jours de la semaine avec première lettre en majuscule
     $jours_semaine = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
     ?>
     
@@ -340,18 +335,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['coach_id'], $_POST['d
     
     <script>
         function selectTimeSlot(element, dispoId) {
-            // Désélectionner tous les créneaux
             document.querySelectorAll('.time-slot').forEach(slot => {
                 slot.classList.remove('selected');
             });
             
-            // Sélectionner le créneau cliqué
             element.classList.add('selected');
             
-            // Mettre à jour l'ID de disponibilité sélectionné
             document.getElementById('selected-slot').value = dispoId;
             
-            // Activer le bouton de confirmation
             document.getElementById('confirm-btn').disabled = false;
         }
     </script>

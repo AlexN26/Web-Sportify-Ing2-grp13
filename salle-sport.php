@@ -5,7 +5,6 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-// Connexion BDD
 $servername = "localhost";
 $username_db = "root";
 $password_db = "";
@@ -24,7 +23,6 @@ $responsables = getResponsables($conn);
 ?>
 
 <?php
-// Surligner les résultats si une recherche est passée
 if (isset($_GET['highlight'])) {
     $highlight = $_GET['highlight'];
     function highlightText($text) {
@@ -35,7 +33,6 @@ if (isset($_GET['highlight'])) {
 }
 ?>
 
-<!-- Votre contenu HTML/PHP normal -->
 
 <?php
 if (isset($_GET['highlight'])) {

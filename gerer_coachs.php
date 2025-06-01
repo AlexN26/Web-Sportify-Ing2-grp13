@@ -10,7 +10,6 @@ if ($mysqli->connect_error) {
     die("Erreur BDD : " . $mysqli->connect_error);
 }
 
-// Suppression coach
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     $id = intval($_POST['delete_id']);
     $mysqli->query("DELETE FROM coachs WHERE id = $id");
@@ -18,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     exit();
 }
 
-// Suppression compte coach
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_user_id'])) {
     $id = intval($_POST['delete_user_id']);
     $mysqli->query("DELETE FROM users WHERE id = $id AND role = 'coach'");
@@ -26,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_user_id'])) {
     exit();
 }
 
-// Ajout coach
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nom']) && isset($_POST['photo'])) {
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
@@ -37,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nom']) && isset($_POS
     $email = $_POST['email'];
     $experience = $_POST['experience'];
     $description = $_POST['description'];
-    $photo = $_POST['photo']; // Exemple : Images/alvaro.jpeg
+    $photo = $_POST['photo']; 
 
     $stmt = $mysqli->prepare("INSERT INTO coachs (nom, prenom, age, domaine_expertise, diplomes, telephone, email, experience, description, photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssissssssss", $nom, $prenom, $age, $domaine, $diplomes, $telephone, $email, $experience, $description, $photo);
@@ -47,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nom']) && isset($_POS
     exit();
 }
 
-// Ajout compte coach
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['new_username'])) {
     $username = $_POST['new_username'];
     $password = $_POST['new_password'];

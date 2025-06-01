@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Vérifier que l'utilisateur est connecté et a le rôle "client"
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'client') {
     header("Location: Votre_compte.php");
     exit();
@@ -35,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!preg_match('/^[a-zA-Z0-9_]+$/', $receiver_username)) {
         $error = "Nom d'utilisateur invalide. Seuls les lettres, chiffres et underscores sont autorisés.";
     } else {
-        // Vérification que le destinataire existe et est un coach
         $stmt = $pdo->prepare("SELECT username, role FROM users WHERE username = ?");
         $stmt->execute([$receiver_username]);
         $user = $stmt->fetch();
@@ -63,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Lire un message en détail
 $message_detail = null;
 if (isset($_GET['msg_id'])) {
     $msg_id = (int) $_GET['msg_id'];
@@ -72,7 +69,6 @@ if (isset($_GET['msg_id'])) {
     $message_detail = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-// Récupérer tous les messages
 $stmt = $pdo->prepare("SELECT * FROM messages WHERE receiver_username = ? OR sender_username = ? ORDER BY timestamp DESC");
 $stmt->execute([$client_username, $client_username]);
 $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);

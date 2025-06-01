@@ -1,7 +1,6 @@
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
-    // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
     header("Location: Votre_compte.php");
     exit();
 }
@@ -76,7 +75,6 @@ if (!isset($_SESSION['username'])) {
 
 
     <script>
-        // Script pour le carrousel
        document.addEventListener('DOMContentLoaded', function() {
     const carousel = document.querySelector('.carousel');
     const carouselContainer = document.querySelector('.carousel-container');
@@ -85,12 +83,10 @@ if (!isset($_SESSION['username'])) {
     const nextBtn = document.getElementById('nextBtn');
     
     let counter = 0;
-    const size = carouselContainer.clientWidth; // Utilise la largeur du conteneur
+    const size = carouselContainer.clientWidth;  
     
-    // Position initiale
     carousel.style.transform = 'translateX(' + (-size * counter) + 'px)';
     
-    // Bouton suivant
     nextBtn.addEventListener('click', function() {
         if (counter >= images.length - 1) return;
         carousel.style.transition = "transform 0.5s ease";
@@ -98,7 +94,6 @@ if (!isset($_SESSION['username'])) {
         carousel.style.transform = 'translateX(' + (-size * counter) + 'px)';
     });
     
-    // Bouton précédent
     prevBtn.addEventListener('click', function() {
         if (counter <= 0) return;
         carousel.style.transition = "transform 0.5s ease";
@@ -106,7 +101,6 @@ if (!isset($_SESSION['username'])) {
         carousel.style.transform = 'translateX(' + (-size * counter) + 'px)';
     });
     
-    // Défilement automatique (optionnel)
     setInterval(function() {
         if (counter >= images.length - 1) counter = -1;
         carousel.style.transition = "transform 0.5s ease";
