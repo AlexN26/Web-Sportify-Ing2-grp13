@@ -100,6 +100,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['coach_id'], $_POST['d
         .paiement-btn:hover {
             background-color: #45a049;
         }
+        .coach-selector {
+        width: 60%;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #eef3fc;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .coach-selector label {
+        font-size: 18px;
+        font-weight: bold;
+        color: #004aad;
+    }
+
+    .coach-selector select {
+        margin-top: 10px;
+        padding: 8px 12px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: white;
+    }
     </style>
 </head>
 <body>
@@ -162,20 +186,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['coach_id'], $_POST['d
 <?php if ($role !== 'client'): ?>
     <p style="color:red;">Seuls les clients peuvent prendre un rendez-vous. Veuillez vous connecter avec un compte client.</p>
 <?php else: ?>
+    <div class="coach-selector">
     <form method="POST">
-        <label>Choisir un coach :
-            <select name="coach_id" required onchange="this.form.submit()">
-                <option value="">-- Sélectionnez --</option>
-                <?php
-                $coachs = $mysqli->query("SELECT id, nom, prenom FROM coachs");
-                while ($c = $coachs->fetch_assoc()) {
-                    $selected = (isset($_POST['coach_id']) && $_POST['coach_id'] == $c['id']) ? "selected" : "";
-                    echo "<option value='{$c['id']}' $selected>{$c['prenom']} {$c['nom']}</option>";
-                }
-                ?>
-            </select>
-        </label>
+        <label for="coach_id">Choisir un coach :</label><br>
+        <select name="coach_id" id="coach_id" required onchange="this.form.submit()">
+            <option value="">-- Sélectionnez --</option>
+            <?php
+            $coachs = $mysqli->query("SELECT id, nom, prenom FROM coachs");
+            while ($c = $coachs->fetch_assoc()) {
+                $selected = (isset($_POST['coach_id']) && $_POST['coach_id'] == $c['id']) ? "selected" : "";
+                echo "<option value='{$c['id']}' $selected>{$c['prenom']} {$c['nom']}</option>";
+            }
+            ?>
+        </select>
     </form>
+    </div>
 
     <?php if (isset($_POST['coach_id'])): ?>
     <?php
