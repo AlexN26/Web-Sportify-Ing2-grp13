@@ -49,16 +49,116 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["query"])) {
     <title>Recherche Sportify</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .result-section {
-            margin: 20px 0;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
         }
-        .result-item {
-            margin: 10px 0;
+
+        header, nav, footer {
+            background-color: #004aad;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a.active {
+            border-bottom: 2px solid #fff;
+        }
+
+        .container {
+            padding: 30px;
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .search-form input {
+            flex: 1;
             padding: 10px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-form button {
+            padding: 10px 20px;
+            background-color: #004aad;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-form button:hover {
+            background-color: #00337f;
+        }
+
+        .result-section {
+            margin-bottom: 30px;
+        }
+
+        .result-item {
+            padding: 15px;
             background: #f9f9f9;
+            border-left: 5px solid #004aad;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .result-item h4 {
+            margin: 0;
+            color: #004aad;
+        }
+
+        .result-item p {
+            margin: 5px 0;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            padding: 30px 15px;
+        }
+
+        .contact-info, .map {
+            width: 45%;
+            min-width: 300px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .search-form {
+                flex-direction: column;
+            }
+
+            .contact-info, .map {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -121,7 +221,16 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["query"])) {
     </div>
 
     <footer>
-        <!-- Votre footer existant -->
+        <div class="contact-info">
+            <h3>Contactez-nous</h3>
+            <p>33 Rue des sportifs de l'ECE<br>
+            team.sportify@onnes.com<br>
+            06 33 16 22 31</p>
+        </div>
+
+        <div class="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d46125.16715836869!2d3.6489429259873885!3d43.735004800892554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b3fe268b01f953%3A0x4078821166ab9b0!2s34380%20Viols-le-Fort!5e0!3m2!1sfr!2sfr!4v1748268041768!5m2!1sfr!2sfr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
     </footer>
 </body>
 </html>

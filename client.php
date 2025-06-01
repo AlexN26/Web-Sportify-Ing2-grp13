@@ -84,86 +84,159 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Espace Client - Messagerie</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header img {
-            height: 150px;
-        }
-        nav {
-            padding: 10px;
-            background: #f0f0f0;
-        }
-        nav a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #333;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-        .error {
-            color: #d33;
-            background: #fdd;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-        }
-        .success {
-            color: #155724;
-            background: #d4edda;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-        }
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    header {
+        background-color: #ffffff;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 2px solid #1c66af;
+    }
+
+    header img {
+        max-height: 100px;
+    }
+
+    nav {
+        background-color: #1c66af;
+        padding: 15px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    nav a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+    }
+
+    nav a:hover {
+        color: #ffd700;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        margin-bottom: 10px;
+        color: #1c66af;
+    }
+
+    .error, .success {
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .message-box {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .message-list, .message-detail {
+        flex: 1 1 45%;
+    }
+
+    .message-item {
+        padding: 15px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f1f8ff;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .message-item:hover {
+        background-color: #d9ecff;
+    }
+
+    input[type="text"], textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0 20px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        background-color: #fefefe;
+    }
+
+    button {
+        background-color: #1c66af;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #144e88;
+    }
+
+    .message-detail hr {
+        margin: 15px 0;
+        border: none;
+        border-top: 1px solid #ccc;
+    }
+
+    footer {
+        background: #1c66af;
+        color: white;
+        padding: 30px;
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .contact-info h3 {
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
         .message-box {
-            display: flex;
-            margin-top: 20px;
+            flex-direction: column;
         }
-        .message-list {
-            width: 40%;
-            padding-right: 20px;
-        }
-        .message-detail {
-            width: 60%;
-            padding-left: 20px;
-            border-left: 1px solid #ddd;
-        }
-        .message-item {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-        }
-        .message-item:hover {
-            background: #f5f5f5;
-        }
-        input[type="text"], textarea {
+
+        .message-list, .message-detail {
             width: 100%;
-            padding: 8px;
-            margin: 5px 0 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
         }
-        button {
-            background: #1c66af;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        footer {
-            background: #1c66af;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
+    }
+</style>
+
 </head>
 <body>
 <header>
