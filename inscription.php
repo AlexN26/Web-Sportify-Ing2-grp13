@@ -39,6 +39,10 @@ if (isset($_GET['error']) && $_GET['error'] == 'username') {
                 <input type="text" id="username" name="username" required minlength="3">
             </div>
             <div class="form-group">
+                <label for="email">Adresse e-mail *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
                 <label for="password">Mot de passe *</label>
                 <input type="password" id="password" name="password" required minlength="6">
             </div>

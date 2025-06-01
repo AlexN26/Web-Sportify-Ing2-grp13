@@ -7,24 +7,24 @@ if ($conn->connect_error) {
     die("Connexion échouée : " . $conn->connect_error);
 }
 
-// On vérifie que les données existent bien dans $_POST
-if (!isset($_POST['username'], $_POST['password'], $_POST['user_type'])) {
-    // Redirection ou message d'erreur si au moins une donnée manque
+// Vérifie que les données existent
+if (!isset($_POST['username'], $_POST['password'], $_POST['user_type'], $_POST['email'])) {
     header("Location: inscription.php?error=missing_data");
     exit();
 }
 
 $username = trim($_POST['username']);
-$password = $_POST['password'];
+$email = trim($_POST['email']);
+$password = $_POST['password'];  // On garde le mot de passe en clair ici
 $role = trim($_POST['user_type']);
 
 // Vérifie que les champs ne sont pas vides
-if ($username === '' || $password === '' || $role === '') {
+if ($username === '' || $email === '' || $password === '' || $role === '') {
     header("Location: inscription.php?error=empty_fields");
     exit();
 }
 
-// Vérification si le nom d'utilisateur existe déjà
+// Vérifie si le nom d'utilisateur est déjà pris
 $sql = "SELECT * FROM users WHERE username = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $username);
@@ -32,30 +32,17 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
-    // Username déjà pris
     header("Location: inscription.php?error=username_taken");
     exit();
 }
 
-// Hachage du mot de passe pour ne pas le voir dans la base de donne
-$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-// === IMPORTANT ===
-// Vérifie que ta table users a bien une colonne "role"
-// Sinon il faut enlever la colonne role ou la créer dans ta BDD
-
-// Si ta table n'a pas de colonne role, remplace la requête par :
-// $insertSql = "INSERT INTO users (username, password) VALUES (?, ?)";
-// $insertStmt = $conn->prepare($insertSql);
-// $insertStmt->bind_param("ss", $username, $hashedPassword);
-
-// Sinon si elle a la colonne role, fais ça :
-$insertSql = "INSERT INTO users (username, password, user_type) VALUES (?, ?, ?)";
+// Insertion du mot de passe en clair (comme demandé, mais pas recommandé)
+$insertSql = "INSERT INTO users (username, email, password, user_type) VALUES (?, ?, ?, ?)";
 $insertStmt = $conn->prepare($insertSql);
-$insertStmt->bind_param("sss", $username, $password, $role);
+$insertStmt->bind_param("ssss", $username, $email, $password, $role);
 
 $insertStmt->execute();
-
+$insertStmt->close();
 $conn->close();
 
 // Redirection après succès
