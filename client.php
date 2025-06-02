@@ -34,13 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!preg_match('/^[a-zA-Z0-9_]+$/', $receiver_username)) {
         $error = "Nom d'utilisateur invalide. Seuls les lettres, chiffres et underscores sont autorisés.";
     } else {
-        $stmt = $pdo->prepare("SELECT username, role FROM users WHERE username = ?");
+        $stmt = $pdo->prepare("SELECT username, user_type FROM users WHERE username = ?");
         $stmt->execute([$receiver_username]);
         $user = $stmt->fetch();
 
         if (!$user) {
             $error = "L'utilisateur $receiver_username n'existe pas.";
-        } elseif ($user['role'] !== 'coach') {
+        } elseif ($user['user_type'] !== 'coach') {
             $error = "Vous ne pouvez envoyer des messages qu'aux coachs.";
         } else {
             $sql = "INSERT INTO messages (sender_username, receiver_username, message, timestamp) 
